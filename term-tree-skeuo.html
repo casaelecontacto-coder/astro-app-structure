@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Astro App Term Content Tree (Skeuomorphic)</title>
+<style>
+:root{
+  --panel:#a09d97; --panel-d:#8e8b85; --ink:#22211f; --engr:#1f1e1c;
+  --k1:#e0ded8; --k2:#bebbb4; --k3:#a7a49d;
+  --d1:#4a4845; --d2:#2b2a28;
+  --or:#f05a24; --or2:#c9430f; --yl:#d9d52a;
+  --well:#6c6a65;
+  --font:"Avenir Next","Helvetica Neue",-apple-system,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0f0f0f;color:var(--ink);font:15px/1.45 var(--font);padding:28px 18px 60px}
+
+/* ---- device ---- */
+.device{max-width:1180px;margin:0 auto;position:relative;border-radius:34px;padding:34px 38px 48px;
+  background:
+   repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px),
+   linear-gradient(180deg,#9a9891 0,#8b8983 40%,#7f7d77 100%);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.25),0 0 0 3px #1b1b1b,0 30px 60px rgba(0,0,0,.6)}
+.screw{position:absolute;width:16px;height:16px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#bdbab4,#6c6a65 70%);box-shadow:inset 0 1px 1px rgba(255,255,255,.5),0 1px 2px rgba(0,0,0,.5)}
+.screw:after{content:"";position:absolute;left:3px;right:3px;top:7px;height:2px;background:#3d3b38;border-radius:1px;transform:rotate(35deg)}
+.screw.a{left:16px;top:16px}.screw.b{right:16px;top:16px}.screw.c{left:16px;bottom:16px}.screw.d{right:16px;bottom:16px}
+.grille{height:14px;margin:-12px 40px 22px;
+  background:radial-gradient(circle,#4a4844 0 2px,transparent 2.6px) 0 0/10px 10px;opacity:.85;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+
+/* engraved text */
+.engr{color:var(--engr);text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.lab{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--engr);text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.rule{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.rule:before,.rule:after{content:"";height:2px;flex:1;border-top:1px solid rgba(0,0,0,.4);border-bottom:1px solid rgba(255,255,255,.3)}
+.rule.l:before{flex:0 0 28px}
+h1{margin:0;font-size:34px;line-height:1.05;letter-spacing:.02em;text-transform:uppercase;font-weight:800;color:var(--engr);text-shadow:0 1px 0 rgba(255,255,255,.4),0 -1px 0 rgba(0,0,0,.15)}
+h1 small{display:block;font-size:12px;letter-spacing:.3em;font-weight:600;margin-top:6px}
+h2{margin:0;font-size:22px;letter-spacing:.04em;text-transform:uppercase;font-weight:800;color:var(--engr);text-shadow:0 1px 0 rgba(255,255,255,.4)}
+.sub{max-width:720px;margin:6px 0 20px;color:#141311;font-size:14px}
+section{padding-top:40px;scroll-margin-top:90px}
+.groove{height:4px;border-radius:2px;margin:36px 0 0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(255,255,255,.3))}
+
+/* ---- keys ---- */
+.well{background:var(--well);border-radius:12px;padding:4px 4px 7px;box-shadow:inset 0 3px 7px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.3);display:inline-block}
+.key{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:700 12px/1 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  border:0;cursor:pointer;border-radius:9px;padding:13px 16px;text-decoration:none;
+  background:linear-gradient(180deg,#ecebe6 0,var(--k1) 35%,var(--k2) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -2px 0 rgba(0,0,0,.14),0 3px 0 #77746e,0 6px 8px rgba(0,0,0,.4);
+  transform:translateY(-2px);transition:transform .08s,box-shadow .08s}
+.key:active,.key.dn{transform:translateY(1px);box-shadow:inset 0 2px 4px rgba(0,0,0,.25),0 1px 0 #77746e,0 1px 2px rgba(0,0,0,.4)}
+.key.dark{color:#f1efe9;background:linear-gradient(180deg,#5a5855,var(--d1) 40%,var(--d2) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.4),0 3px 0 #161514,0 6px 8px rgba(0,0,0,.45)}
+.key.or{color:#1c0d05;background:linear-gradient(180deg,#ff7a45,var(--or) 45%,var(--or2) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(0,0,0,.2),0 3px 0 #8a2a07,0 6px 8px rgba(0,0,0,.4)}
+.key:focus-visible,summary:focus-visible,input:focus-visible,.sw:focus-visible{outline:3px solid var(--yl);outline-offset:3px}
+.nav{display:flex;flex-wrap:wrap;gap:14px;margin:20px -10px 0;padding:12px 10px 14px;position:sticky;top:10px;z-index:20;border-radius:16px;background:linear-gradient(180deg,rgba(150,148,141,.96),rgba(130,128,122,.96));backdrop-filter:blur(6px);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 16px rgba(0,0,0,.35),0 0 0 1px rgba(0,0,0,.25)}
+.nav .key{padding:10px 14px;font-size:11px}
+
+/* round knobs */
+.knob-row{display:flex;gap:26px;align-items:flex-start}
+.knobwrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.knob{width:64px;height:64px;border-radius:50%;border:0;cursor:pointer;position:relative;
+  box-shadow:0 5px 0 rgba(0,0,0,.35),0 10px 14px rgba(0,0,0,.45),inset 0 2px 2px rgba(255,255,255,.5);transition:transform .08s}
+.knob:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.35),0 3px 5px rgba(0,0,0,.4),inset 0 2px 2px rgba(255,255,255,.4)}
+.knob:after{content:"";position:absolute;inset:16px;border-radius:50%;box-shadow:inset 0 2px 3px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.5)}
+.knob.or{background:radial-gradient(circle at 35% 28%,#ff8a5b,var(--or) 55%,var(--or2))}
+.knob.bk{background:radial-gradient(circle at 35% 28%,#5d5b58,#2a2927 60%,#171716)}
+.knob.bk:after{box-shadow:inset 0 2px 3px rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.18)}
+
+/* LCD / display */
+.lcd{background:linear-gradient(180deg,#171716,#242321);border-radius:10px;box-shadow:inset 0 3px 8px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.35);color:#f4efe5}
+.search{width:100%;border:0;background:transparent;color:#f4efe5;font:600 14px/1 var(--font);letter-spacing:.06em;padding:15px 16px;caret-color:var(--or)}
+.search::placeholder{color:#a7a29a;text-transform:uppercase;letter-spacing:.12em;font-size:12px}
+.digits{font:700 20px/1 ui-monospace,"SF Mono",Menlo,monospace;color:var(--or);text-shadow:0 0 8px rgba(240,90,36,.6);padding:8px 12px;min-width:62px;text-align:center}
+.digits.s{color:#f1efe9;text-shadow:0 0 8px rgba(255,255,255,.4)}
+.digits.c{color:var(--yl);text-shadow:0 0 8px rgba(217,213,42,.6)}
+.digits small{display:block;font-size:8.5px;letter-spacing:.14em;color:#a7a29a;text-shadow:none;margin-top:3px;font-weight:600;text-transform:uppercase}
+
+/* LED + switch */
+.led{width:10px;height:10px;border-radius:50%;background:#5a2a18;box-shadow:inset 0 1px 1px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.3);flex:none;display:inline-block}
+.led.on{background:radial-gradient(circle at 40% 35%,#ffb08a,var(--or) 60%);box-shadow:0 0 9px 2px rgba(240,90,36,.7),0 1px 0 rgba(255,255,255,.3)}
+.led.yl{background:radial-gradient(circle at 40% 35%,#fffbb0,var(--yl) 60%);box-shadow:0 0 9px 2px rgba(217,213,42,.7)}
+.sw{margin-top:22px;appearance:none;border:0;width:46px;height:22px;border-radius:5px;position:relative;cursor:pointer;background:#2a2927;box-shadow:inset 0 2px 5px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.3)}
+.sw:after{content:"";position:absolute;top:2px;left:2px;width:20px;height:18px;border-radius:3px;background:linear-gradient(180deg,#e6e4de,#b3b0a9);box-shadow:0 2px 3px rgba(0,0,0,.6),inset 0 1px 0 #fff;transition:left .12s}
+.sw[aria-pressed="true"]:after{left:24px;background:linear-gradient(180deg,#f6f27a,var(--yl))}
+.sw[aria-pressed="true"]{box-shadow:inset 0 2px 5px rgba(0,0,0,.8),0 0 10px rgba(217,213,42,.45),0 1px 0 rgba(255,255,255,.3)}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end;margin:0 0 24px}
+.tools .srch{flex:1;min-width:240px;max-width:420px}
+.tools .srch .lab{display:block;margin-bottom:8px}
+.legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-left:auto}
+
+/* tier tags */
+.tag{display:inline-block;font:700 10px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;padding:6px 9px;border-radius:5px;white-space:nowrap}
+.tag.m{background:linear-gradient(180deg,#ff7a45,var(--or2));color:#1c0d05;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 2px 0 #8a2a07}
+.tag.s{background:linear-gradient(180deg,#575552,var(--d2));color:#f1efe9;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 2px 0 #111}
+.tag.c{background:linear-gradient(180deg,#eeea4a,var(--yl) 55%,#aaa616);color:#1c1b08;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 0 #6f6c0a}
+.flt{border:0;font-family:var(--font);cursor:pointer;padding:9px 12px;transition:transform .08s,filter .1s}
+.flt:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.flt[aria-pressed="true"]{transform:translateY(2px);filter:brightness(.92);box-shadow:inset 0 3px 5px rgba(0,0,0,.55),0 0 0 2px var(--yl)}
+.flt:focus-visible{outline:3px solid var(--yl);outline-offset:3px}
+.tag.care{background:#2a2927;color:#f4efe5;display:inline-flex;gap:6px;align-items:center}
+
+/* anatomy */
+.anat{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:34px;align-items:start}
+.screen{border-radius:18px;padding:18px 18px 16px;background:linear-gradient(180deg,#e9e7e1,#d3d1ca);
+  box-shadow:inset 0 1px 0 #fff,inset 0 -2px 0 rgba(0,0,0,.12),0 0 0 6px var(--well),0 0 0 7px rgba(0,0,0,.4),0 10px 16px rgba(0,0,0,.4);margin:6px}
+.screen .grab{width:42px;height:5px;border-radius:3px;background:#9f9c95;margin:0 auto 12px;box-shadow:inset 0 1px 1px rgba(0,0,0,.4)}
+.screen h3{margin:2px 0 8px;font-size:23px;line-height:1.1}
+.screen h3 small{font-size:12px;color:#55524d;font-weight:600;margin-left:6px;letter-spacing:.08em;text-transform:uppercase}
+.screen p{margin:0 0 10px;font-size:14px}
+.screen .you{background:#bdbab3;border-radius:8px;padding:9px 11px;box-shadow:inset 0 2px 4px rgba(0,0,0,.25);margin-bottom:12px;font-size:13.5px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chips .key{padding:8px 12px;font-size:10.5px}
+.screen .go{width:100%}
+.parts{display:flex;flex-direction:column;gap:12px}
+.part{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-radius:12px;
+  background:linear-gradient(180deg,#8a8781,#9a9791);box-shadow:inset 0 3px 7px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.3)}
+.part:nth-child(even) .n{background:radial-gradient(circle at 35% 30%,#fbf88a,var(--yl) 60%,#9d9a10);box-shadow:0 2px 0 #6f6c0a,0 3px 5px rgba(0,0,0,.4);color:#1c1b08}
+.part .n{width:28px;height:28px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#1c0d05;
+  background:radial-gradient(circle at 35% 30%,#ff9a6e,var(--or) 60%,var(--or2));box-shadow:0 2px 0 #8a2a07,0 3px 5px rgba(0,0,0,.4)}
+.part b{display:block;font-size:14px;color:#161513}
+.part span{font-size:13px;color:#24231f}
+
+/* branches */
+details.br{margin-bottom:18px}
+details.br>summary{list-style:none;cursor:pointer;display:flex;gap:16px;align-items:center;padding:14px 16px;border-radius:14px;
+  background:linear-gradient(180deg,#ecebe6 0,var(--k1) 35%,var(--k2) 100%);
+  box-shadow:inset 0 1px 0 #fff,inset 0 -2px 0 rgba(0,0,0,.14),0 4px 0 #77746e,0 8px 10px rgba(0,0,0,.4);transform:translateY(-2px);transition:transform .08s,box-shadow .08s}
+details.br>summary::-webkit-details-marker{display:none}
+details.br>summary:hover{transform:translateY(-4px);box-shadow:inset 0 1px 0 #fff,inset 0 -2px 0 rgba(0,0,0,.14),0 6px 0 #77746e,0 12px 14px rgba(0,0,0,.4)}
+details.br>summary:active{transform:translateY(2px);box-shadow:inset 0 3px 6px rgba(0,0,0,.35),0 1px 0 #77746e}
+.rled{width:10px;height:10px;border-radius:50%;flex:none;background:#5a2a18;box-shadow:inset 0 1px 1px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.6)}
+details.br[open] .rled{background:radial-gradient(circle at 40% 35%,#ffb08a,var(--or) 60%);box-shadow:0 0 9px 2px rgba(240,90,36,.7),0 1px 0 rgba(255,255,255,.6)}
+.tog{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none}
+.tog b{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:#f1efe9;
+  background:radial-gradient(circle at 35% 28%,#5d5b58,#2a2927 65%,#171716);box-shadow:inset 0 1px 1px rgba(255,255,255,.3),0 3px 0 #0e0e0d,0 5px 7px rgba(0,0,0,.45);transition:transform .12s}
+.tog em{font-style:normal;font:700 8.5px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;color:#3b3935}
+.tog em:after{content:"Open"}
+details.br[open] .tog b{transform:rotate(180deg)}
+details.br[open] .tog em:after{content:"Close"}
+details.br[open]>summary{transform:translateY(2px);background:linear-gradient(180deg,#b3b0a9,#c4c1ba);box-shadow:inset 0 3px 6px rgba(0,0,0,.35),0 1px 0 #77746e}
+.bnum{width:34px;height:34px;border-radius:7px;background:#2a2927;color:var(--or);display:flex;align-items:center;justify-content:center;font:700 14px ui-monospace,Menlo,monospace;box-shadow:inset 0 2px 5px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.5);flex:none;text-shadow:0 0 6px rgba(240,90,36,.6)}
+.bnum.s{color:#f1efe9;text-shadow:0 0 6px rgba(255,255,255,.5)}
+.bnum.c{color:var(--yl);text-shadow:0 0 6px rgba(217,213,42,.7)}
+.bt{flex:1;min-width:0}
+.bt b{display:block;font-size:16px;letter-spacing:.02em;line-height:1.2}
+.bt span{font-size:12.5px;color:#3b3935}
+.meta{display:flex;align-items:center;gap:12px}
+.inner{padding:22px 6px 6px}
+.uses{margin:0 0 12px;font-size:13px;color:#141311}
+.note{margin:0 0 14px;font-size:13px;padding:10px 12px;border-radius:9px;background:#7f7c76;color:#f4efe5;box-shadow:inset 0 2px 5px rgba(0,0,0,.5)}
+.grp{margin:0 0 20px}
+.grp h4{margin:0 0 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.grp h4 .lab{font-size:11.5px}
+.grp h4 small{font-size:12px;color:#141311;letter-spacing:0;text-transform:none;font-weight:500}
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:14px 12px}
+.t{position:relative;padding:10px 11px 11px;border-radius:9px;min-width:0;
+  background:linear-gradient(180deg,#ecebe6 0,var(--k1) 35%,var(--k2) 100%);
+  box-shadow:inset 0 1px 0 #fff,inset 0 -2px 0 rgba(0,0,0,.12),0 3px 0 #77746e,0 5px 7px rgba(0,0,0,.35)}
+.t b{display:block;font-size:12.5px;letter-spacing:.03em;line-height:1.25;padding-right:14px}
+.t i{display:block;font-style:normal;font-size:11.5px;line-height:1.35;color:#3f3d39;margin-top:3px}
+.nogloss .t i{display:none}
+.t .led{position:absolute;right:9px;top:10px;width:8px;height:8px}
+.t.hide,.grp.hide,details.br.hide{display:none}
+
+/* universal controller: scroll position */
+.uc{user-select:none;position:fixed;right:20px;top:50%;transform:translateY(-50%);height:44vh;min-height:220px;width:34px;display:none;flex-direction:column;align-items:center;gap:8px;z-index:5}
+.uc .lab{writing-mode:vertical-rl;transform:rotate(180deg);color:#e9e6df;text-shadow:none;font-size:10px;letter-spacing:.22em}
+.uc .trk{cursor:pointer;touch-action:none;position:relative;flex:1;width:26px;border-radius:13px;background:linear-gradient(90deg,#8a8710,var(--yl) 35%,#f1ee63 55%,#a9a61a);box-shadow:inset 0 3px 7px rgba(0,0,0,.55),0 0 0 3px var(--well),0 0 0 4px rgba(0,0,0,.4),0 6px 10px rgba(0,0,0,.5)}
+.uc .trk:focus-visible{outline:3px solid #fff;outline-offset:6px}
+.uc .trk.dg .hd{cursor:grabbing;filter:brightness(.92)}
+.uc .hd{cursor:grab;position:absolute;left:-5px;right:-5px;height:34px;border-radius:8px;top:0;background:linear-gradient(180deg,#e9e7e1,#a9a6a0);box-shadow:inset 0 1px 0 #fff,0 3px 0 #5d5a55,0 6px 8px rgba(0,0,0,.5)}
+.uc .hd:after{content:"";position:absolute;left:8px;right:8px;top:15px;height:3px;border-radius:2px;background:#6b6862;box-shadow:0 1px 0 rgba(255,255,255,.6)}
+@media (min-width:1340px){.uc{display:flex}}
+
+
+/* ---- bays (list panels) ---- */
+.bay{padding:18px 20px 10px;border-radius:16px;background:linear-gradient(180deg,#85827c,#948f89);box-shadow:inset 0 3px 8px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.3)}
+.bhead{display:grid;gap:12px;padding:0 0 10px;margin-bottom:6px;border-bottom:2px solid rgba(0,0,0,.35);box-shadow:0 1px 0 rgba(255,255,255,.2)}
+.bhead span{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--engr);text-shadow:0 1px 0 rgba(255,255,255,.3)}
+.plate{display:block;border-radius:6px;padding:10px 13px;font-weight:700;font-size:13.5px;line-height:1.2;color:#1c1b19;background:linear-gradient(180deg,#e4e2dc,#c4c1ba);box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.35)}
+.plate.dk{color:#f4efe5;background:linear-gradient(180deg,#232220,#161615);box-shadow:inset 0 2px 5px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.35);display:flex;gap:9px;align-items:center;font-weight:600;letter-spacing:.03em}
+.plate.dk .led{width:8px;height:8px}
+.chp{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 9px;border-radius:5px;margin:2px 6px 2px 0;color:#1c1b19;background:linear-gradient(180deg,#d9d7d1,#b5b2ab);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 0 1px rgba(0,0,0,.3)}
+
+/* naming map: patch bay */
+.pb,.bhead.pb{grid-template-columns:minmax(150px,1fr) 78px minmax(170px,1.1fr) minmax(190px,1.4fr)}
+.pb{display:grid;align-items:center;gap:12px;padding:9px 0}
+.pb+.pb{border-top:1px solid rgba(0,0,0,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+.wire{position:relative;height:22px}
+.wire:before{content:"";position:absolute;left:10px;right:10px;top:8px;height:6px;border-radius:3px;background:linear-gradient(180deg,#555,#1d1d1c 60%,#3a3a38);box-shadow:0 2px 3px rgba(0,0,0,.5)}
+.wire i{position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d6d4ce,#7b7872 70%);box-shadow:inset 0 0 0 4px #2a2927,0 1px 0 rgba(255,255,255,.4)}
+.wire i:first-child{left:0}.wire i:last-child{right:0}
+.pb:hover .wire:before{background:linear-gradient(180deg,#ff8a5b,var(--or) 60%,var(--or2))}
+
+/* life domains: channel strips */
+.ch{display:grid;grid-template-columns:120px minmax(320px,1fr) minmax(150px,auto);align-items:center;gap:18px;padding:12px 0}
+.bhead.ch{padding:0 0 10px}
+.ch+.ch{border-top:1px solid rgba(0,0,0,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+.leds{display:grid;grid-template-columns:repeat(12,1fr);gap:6px}
+.leds div{text-align:center}
+.leds b{display:block;height:16px;border-radius:3px;background:#2f2220;box-shadow:inset 0 2px 3px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.3)}
+.leds b.on{background:linear-gradient(180deg,#ffb08a,var(--or) 55%,#d04a14);box-shadow:0 0 10px 2px rgba(240,90,36,.65),inset 0 1px 0 rgba(255,255,255,.5)}
+.leds small{display:block;font:700 9.5px/1 ui-monospace,Menlo,monospace;color:var(--engr);margin-top:5px;opacity:.8}
+.hn{font-size:12px;margin-top:8px;color:#141311}
+.pl .plate.dk{display:inline-flex;margin:2px 6px 2px 0;padding:7px 11px;font-size:12px}
+
+/* volume: segment meters */
+.vr{display:grid;grid-template-columns:minmax(190px,1fr) minmax(220px,2.2fr) 74px 70px;align-items:center;gap:16px;padding:9px 0}
+.bhead.vr{padding:0 0 10px}
+.vr+.vr{border-top:1px solid rgba(0,0,0,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+.seg{display:grid;grid-template-columns:repeat(32,1fr);gap:3px;padding:6px 7px;border-radius:7px;background:#1c1b1a;box-shadow:inset 0 2px 5px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.3)}
+.seg u{height:14px;border-radius:2px;background:#33302d;text-decoration:none}
+.seg.m u.on{background:linear-gradient(180deg,#ffa077,var(--or));box-shadow:0 0 6px rgba(240,90,36,.7)}
+.seg.s u.on{background:linear-gradient(180deg,#fff,#cfcdc7);box-shadow:0 0 6px rgba(255,255,255,.45)}
+.seg.c u.on{background:linear-gradient(180deg,#f6f27a,var(--yl));box-shadow:0 0 6px rgba(217,213,42,.7)}
+.vr .digits{padding:7px 8px}
+.vtot{display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:14px 0 8px;border-top:2px solid rgba(0,0,0,.4)}
+.vtot .digits{font-size:28px;padding:10px 18px}
+@media (max-width:900px){
+  .pb,.bhead.pb,.ch,.bhead.ch,.vr,.bhead.vr{grid-template-columns:1fr}
+  .bhead{display:none}.wire{display:none}.leds{max-width:100%}
+}
+
+/* tables */
+.panel-t{border-radius:14px;padding:6px 16px;background:linear-gradient(180deg,#8a8781,#999690);box-shadow:inset 0 3px 8px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.3)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;padding:12px 8px 8px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--engr);text-shadow:0 1px 0 rgba(255,255,255,.3)}
+td{padding:11px 8px;border-top:1px solid rgba(0,0,0,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.2);color:#161513}
+td:first-child{font-weight:700}
+td.num{text-align:right;font-family:ui-monospace,Menlo,monospace;font-weight:700}
+tfoot td{font-weight:800;border-top:2px solid rgba(0,0,0,.4)}
+
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.rl{padding:16px 18px;border-radius:12px;background:linear-gradient(180deg,#ecebe6,var(--k2));box-shadow:inset 0 1px 0 #fff,0 4px 0 #77746e,0 8px 10px rgba(0,0,0,.35)}
+.rl h4{margin:0 0 4px;font-size:13.5px;letter-spacing:.06em;text-transform:uppercase}
+.rl p{margin:0;font-size:13px;color:#33312d}
+
+.foot{margin-top:46px}
+
+@media (max-width:820px){.anat{grid-template-columns:1fr}.device{padding:28px 18px 40px}.legend{margin-left:0}}
+
+/* ---- mobile ---- */
+@media (max-width:640px){
+  body{padding:10px 8px 40px;font-size:14.5px}
+  .device{padding:26px 14px 34px;border-radius:24px}
+  .screw.a{left:10px;top:10px}.screw.b{right:10px;top:10px}.screw.c{left:10px;bottom:10px}.screw.d{right:10px;bottom:10px}
+  .grille{margin:-10px 18px 16px}
+  h1{font-size:27px}
+  h2{font-size:18px}
+  .rule{gap:8px}
+  section{padding-top:30px;scroll-margin-top:76px}
+  .groove{margin-top:28px}
+  .nav{flex-wrap:nowrap;overflow-x:auto;gap:10px;margin:16px -6px 0;padding:10px 8px 12px;top:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .nav::-webkit-scrollbar{display:none}
+  .nav .key{flex:none;padding:9px 12px;font-size:10.5px}
+  .tools{gap:16px 18px}
+  .tools .srch{flex:1 1 100%;max-width:none}
+  .knob-row{width:100%;justify-content:space-between;gap:14px}
+  .legend{width:100%;gap:8px;margin-left:0}
+  .legend .lab{width:100%}
+  .flt{flex:1 1 auto;padding:10px 8px;text-align:center;justify-content:center}
+  /* branch rows */
+  details.br>summary{display:grid;grid-template-columns:auto auto 1fr;grid-template-areas:"led num txt" "meta meta meta";column-gap:12px;row-gap:12px;align-items:center;padding:14px 14px 12px}
+  .rled{grid-area:led}
+  .bnum{grid-area:num}
+  .bt{grid-area:txt}
+  .bt b{font-size:15.5px}
+  .meta{grid-area:meta;width:100%;justify-content:space-between;gap:10px;padding-top:12px;border-top:1px solid rgba(0,0,0,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+  .digits{min-width:58px;padding:6px 10px;font-size:18px}
+  .inner{padding:18px 0 4px}
+  .terms{grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:12px 10px}
+  .t{padding:9px 9px 10px}
+  .t b{font-size:12px}
+  .grp h4{margin-bottom:10px}
+  .screen{margin:4px 2px 10px}
+  .parts{gap:10px}
+  .part{padding:12px;gap:10px}
+  .bay{padding:14px 12px 6px}
+  .pb{gap:8px;padding:12px 0}
+  .pb .plate.dk{justify-self:start}
+  .ch{gap:12px;padding:14px 0}
+  .leds{gap:3px}
+  .leds b{height:14px}
+  .vr{grid-template-columns:1fr auto;gap:10px 12px;padding:12px 0}
+  .vr .plate,.vr .seg{grid-column:1/-1}
+  .vr .digits{justify-self:start}
+  .vr .tag{justify-self:end!important}
+  .seg{gap:2px;padding:5px}
+  .seg u{height:12px}
+  .vtot{padding-top:12px}
+  .vtot .digits{font-size:24px}
+  .rules{gap:14px}
+  .rl{padding:14px}
+}
+</style>
+<script>if(/[?&]from=hero/.test(location.search)){document.documentElement.classList.add('arrive');try{history.replaceState(null,'',location.pathname+location.hash)}catch(e){}}</script>
+<style>html.arrive::before{content:"";position:fixed;inset:0;z-index:9999;background:#0c0c0b;pointer-events:none;animation:arriveVeil .9s .15s ease-out forwards}@keyframes arriveVeil{to{opacity:0;visibility:hidden}}@media (prefers-reduced-motion:reduce){html.arrive::before{display:none}}</style>
+</head>
+<body>
+<div class="device">
+  <i class="screw a"></i><i class="screw b"></i><i class="screw c"></i><i class="screw d"></i>
+  <div class="grille" aria-hidden="true"></div>
+
+  <header>
+    <div class="rule l"><span class="lab">Term content tree</span></div>
+    <h1>Astro App<small>Term cards · v1</small></h1>
+    <p class="sub">Every astrology term the app explains, organised by topic. Each term becomes one tap-any-term card. Terms were chosen from the Must, Should and Could features in <code>plan.md</code>; nothing outside them is included.</p>
+  </header>
+  <nav class="nav" aria-label="Sections">
+      <a class="key" href="#anatomy">Card anatomy</a><a class="key" href="#tree">Term tree</a><a class="key" href="#names">Naming map</a><a class="key" href="#domains">Life domains</a><a class="key" href="#volume">Volume</a><a class="key" href="#rules">Rules</a>
+    </nav>
+
+  <div class="groove"></div>
+
+  <section id="anatomy">
+    <div class="rule"><h2>Card anatomy</h2></div>
+    <p class="sub">One consistent card for every term, so writing and design scale. Shown with “Lagna” as the example.</p>
+    <div class="anat">
+      <div class="screen">
+        <div class="grab"></div>
+        <div class="lab">Chart term</div>
+        <h3>Rising sign <small>Lagna</small></h3>
+        <p>The sign that was rising on the eastern horizon when you were born. It shapes how you come across to others.</p>
+        <div class="you"><b>For you:</b> Yours is Taurus (Vrishabha).</div>
+        <div class="chips"><span class="key">Rashi</span><span class="key">Bhava</span></div>
+        <span class="key dark go">See it in my chart ›</span>
+      </div>
+      <div class="parts">
+        <div class="part"><div class="n">1</div><div><b>Title: friendly name first, classical name beside it</b><span>Users meet both in the wild, so both are searchable. Where no friendly name exists, the classical word leads.</span></div></div>
+        <div class="part"><div class="n">2</div><div><b>Plain meaning, under 30 words</b><span>Everyday language, no other jargon. If another term is needed, it is linked as a chip.</span></div></div>
+        <div class="part"><div class="n">3</div><div><b>“For you” line</b><span>Appears only when the term applies to the user’s own chart. Labelled “likely” when the birth time is unknown.</span></div></div>
+        <div class="part"><div class="n">4</div><div><b>Related terms</b><span>Up to three chips that open their own cards, so users can keep learning without leaving the sheet.</span></div></div>
+        <div class="part"><div class="n">5</div><div><b>Action: see it in my chart</b><span>Jumps to the place in Chart where the term appears. Hidden for terms with no chart location (for example, a weekday).</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="groove"></div>
+
+  <section id="tree">
+    <div class="rule"><h2>Term tree</h2></div>
+    <p class="sub">Eleven branches. Press a branch to open it. Terms with an orange light are traditionally read as difficult and follow the heavy-topic wording rules. English glosses are working drafts for an astrologer to confirm.</p>
+    <div class="tools">
+      <div class="srch"><span class="lab">Search</span><div class="lcd"><input class="search" id="q" type="search" placeholder="Rohini, sign, tithi…" aria-label="Search terms"></div></div>
+      <div class="knob-row">
+        <div class="knobwrap"><button class="knob or" id="open" aria-label="Expand all branches"></button><span class="lab">Expand</span></div>
+        <div class="knobwrap"><button class="knob bk" id="close" aria-label="Collapse all branches"></button><span class="lab">Collapse</span></div>
+        <div class="knobwrap"><button class="sw" id="gl" aria-pressed="true" aria-label="Show meanings"></button><span class="lab">Gloss</span></div>
+      </div>
+      <div class="legend"><span class="lab">Filter</span><button class="tag m flt" data-f="m" aria-pressed="false">Must</button><button class="tag s flt" data-f="s" aria-pressed="false">Should</button><button class="tag c flt" data-f="c" aria-pressed="false">Could</button><button class="tag care flt" data-f="care" aria-pressed="false"><i class="led on"></i>Care</button></div>
+    </div>
+    <div id="branches"></div>
+  </section>
+
+  <div class="groove"></div>
+
+  <section id="names">
+    <div class="rule"><h2>Naming map</h2></div>
+    <p class="sub">Where the app’s friendly name differs from the classical term. Both appear on the card.</p>
+    <div class="bay" id="namemap"></div>
+  </section>
+
+  <div class="groove"></div>
+
+  <section id="domains">
+    <div class="rule"><h2>Life domains</h2></div>
+    <p class="sub">How the daily reading’s topics connect back to the tree. This lets a “Career” section link to the right houses and planets. Proposed; an astrologer should confirm.</p>
+    <div class="bay" id="domainmap"></div>
+  </section>
+
+  <div class="groove"></div>
+
+  <section id="volume">
+    <div class="rule"><h2>Writing volume</h2></div>
+    <p class="sub">The number of cards to write and review. Panchang and Nakshatra sets are the largest, and Yoga and Karana can share a template.</p>
+    <div class="bay" id="volmap"></div>
+  </section>
+
+  <div class="groove"></div>
+
+  <section id="rules">
+    <div class="rule"><h2>Content rules</h2></div>
+    <p class="sub">Short rules that keep 190-plus cards consistent. They build on the heavy-topic care handling in the plan.</p>
+    <div class="rules">
+      <div class="rl"><h4>Plain first, Sanskrit second</h4><p>Write the plain meaning, then place the classical word beside it. Never define a term using another unexplained term.</p></div>
+      <div class="rl"><h4>Care-marked terms are softened</h4><p>Terms traditionally read as difficult (such as Chandrashtama, Vishti, 8th house) describe what the period is for, not what to fear. No remedies are sold.</p></div>
+      <div class="rl"><h4>Templates for large sets</h4><p>Yoga, Karana, Tithi and Nakshatra cards share a fixed shape, so an astrologer reviews content rather than structure.</p></div>
+      <div class="rl"><h4>Cards work offline</h4><p>All cards ship with the app, so tapping a term never needs a connection. Only the “For you” line is calculated.</p></div>
+      <div class="rl"><h4>One owner for each fact</h4><p>A fact (for example, that Rohini is ruled by the Moon) lives in one place and is reused by every card that mentions it.</p></div>
+    </div>
+  </section>
+
+  <div class="grille foot" aria-hidden="true"></div>
+</div>
+<div class="uc"><span class="lab">Universal controller</span><div class="trk" id="trk" role="slider" tabindex="0" aria-label="Scroll the page" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="hd" id="hd"></div></div></div>
+
+<script>
+
+const T = (a,b,care)=>[a,b,!!care];
+
+const branches = [
+ {id:'foundations',name:'Foundations',t:'m',blurb:'The ideas everything else rests on',uses:'Onboarding, Chart, every card',groups:[
+   {items:[
+     T('Jyotish','Vedic astrology, the “science of light”'),
+     T('Kundli','Your birth chart, also called Janma Patrika'),
+     T('Sidereal zodiac','The zodiac measured against the fixed stars'),
+     T('Ayanamsa','The gap between the Vedic and Western zodiac, about 24°'),
+     T('Graha','A planet or influence in the chart'),
+     T('Rashi','A zodiac sign'),
+     T('Bhava','A house, one of 12 life areas'),
+     T('Nakshatra','One of 27 lunar mansions, or “birth stars”'),
+     T('Lagna','The rising sign at your birth'),
+     T('Birth time','Needed for the rising sign and houses')
+   ]}
+ ]},
+ {id:'core',name:'Your core placements',t:'m',blurb:'What “You at a glance” shows',uses:'You at a glance, Today, onboarding chart reveal',groups:[
+   {items:[
+     T('Chandra Rashi','Moon sign, the centre of Vedic readings'),
+     T('Janma Nakshatra','Birth star, the Moon’s star at your birth'),
+     T('Lagna','Rising sign'),
+     T('Surya Rashi','Sun sign, the one in newspapers'),
+     T('Key placements','The few placements that matter most for you')
+   ]}
+ ]},
+ {id:'rashis',name:'The 12 signs (Rashis)',t:'m',blurb:'Each with element, ruler and a plain trait line',uses:'You at a glance, Chart, Today',groups:[
+   {items:[
+     T('Mesha','Aries'),T('Vrishabha','Taurus'),T('Mithuna','Gemini'),T('Karka','Cancer'),
+     T('Simha','Leo'),T('Kanya','Virgo'),T('Tula','Libra'),T('Vrishchika','Scorpio'),
+     T('Dhanu','Sagittarius'),T('Makara','Capricorn'),T('Kumbha','Aquarius'),T('Meena','Pisces')
+   ]}
+ ]},
+ {id:'grahas',name:'The 9 planets (Grahas)',t:'m',blurb:'What each stands for, in plain words',uses:'Chart, Planet profiles, Dasha, Panchang weekdays',groups:[
+   {items:[
+     T('Surya','Sun: vitality, self'),T('Chandra','Moon: mind, emotions'),T('Mangal','Mars: energy, drive'),
+     T('Budha','Mercury: speech, learning'),T('Guru','Jupiter: wisdom, growth'),T('Shukra','Venus: love, comfort'),
+     T('Shani','Saturn: discipline, time'),T('Rahu','North node: ambition, hunger'),T('Ketu','South node: detachment')
+   ]}
+ ]},
+ {id:'bhavas',name:'The 12 houses (Bhavas)',t:'m',blurb:'The life area each house covers',uses:'Chart, Life-domain view, domain readings',groups:[
+   {items:[
+     T('1st · Tanu','Self and body'),T('2nd · Dhana','Money and family'),T('3rd · Sahaja','Effort and siblings'),
+     T('4th · Sukha','Home and peace'),T('5th · Putra','Creativity and children'),T('6th','Work, service, health'),
+     T('7th · Kalatra','Partnerships'),T('8th · Ayu','Change and depth',true),T('9th · Bhagya','Luck and purpose'),
+     T('10th · Karma','Career and status'),T('11th · Labha','Gains and friends'),T('12th · Vyaya','Rest and letting go',true)
+   ]},
+   {g:'House groups',t:'c',items:[
+     T('Kendra','Corner houses (1, 4, 7, 10): the pillars'),T('Trikona','Trine houses (1, 5, 9): fortune'),T('House lord','The planet that rules a house')
+   ]}
+ ]},
+ {id:'nakshatras',name:'The 27 Nakshatras',t:'m',blurb:'Grouped by the planet that starts your Dasha',uses:'You at a glance, Panchang, Dasha, Nakshatra deep dive',note:'Each Nakshatra has a ruling planet that sets the first Dasha at birth. Grouping by ruler also shows the pattern. Each Nakshatra also has four quarters, called Padas.',groups:[
+   {g:'Ketu',items:[T('Ashwini','Horse riders'),T('Magha','The great'),T('Mula','The root')]},
+   {g:'Shukra (Venus)',items:[T('Bharani','The bearer'),T('Purva Phalguni','Former fruit'),T('Purva Ashadha','Early invincible')]},
+   {g:'Surya (Sun)',items:[T('Krittika','The cutter'),T('Uttara Phalguni','Latter fruit'),T('Uttara Ashadha','Later invincible')]},
+   {g:'Chandra (Moon)',items:[T('Rohini','The red one'),T('Hasta','The hand'),T('Shravana','Hearing')]},
+   {g:'Mangal (Mars)',items:[T('Mrigashira','Deer’s head'),T('Chitra','The bright'),T('Dhanishta','The richest')]},
+   {g:'Rahu',items:[T('Ardra','The moist one'),T('Swati','The independent'),T('Shatabhisha','Hundred healers')]},
+   {g:'Guru (Jupiter)',items:[T('Punarvasu','Return of light'),T('Vishakha','The forked'),T('Purva Bhadrapada','Former blessed feet')]},
+   {g:'Shani (Saturn)',items:[T('Pushya','The nourisher'),T('Anuradha','Devotion'),T('Uttara Bhadrapada','Latter blessed feet')]},
+   {g:'Budha (Mercury)',items:[T('Ashlesha','The clinger'),T('Jyeshtha','The eldest'),T('Revati','The wealthy')]},
+   {g:'Related terms',items:[T('Pada','One quarter of a Nakshatra')]}
+ ]},
+ {id:'dasha',name:'Life phases (Dasha)',t:'m',blurb:'The planetary periods behind the Life phase card',uses:'Life phase card, Dasha timeline, Antardasha detail',groups:[
+   {g:'Concepts',t:'m',items:[
+     T('Dasha','A planetary period, shown as a “life phase”'),T('Mahadasha','The main period'),T('Vimshottari','The 120-year cycle used here'),T('Dasha lord','The planet running the current period')
+   ]},
+   {g:'Period lengths',t:'m',items:[
+     T('Ketu · 7 yrs','Letting go, inner focus'),T('Shukra · 20 yrs','Relationships, comfort'),T('Surya · 6 yrs','Identity, leadership'),
+     T('Chandra · 10 yrs','Emotions, home'),T('Mangal · 7 yrs','Drive, action'),T('Rahu · 18 yrs','Ambition, change'),
+     T('Guru · 16 yrs','Growth, learning'),T('Shani · 19 yrs','Discipline, patience'),T('Budha · 17 yrs','Communication, skill')
+   ]},
+   {g:'Depth',t:'c',items:[
+     T('Antardasha','A sub-period inside a main period'),T('Dasha balance','How much of the first period remained at birth')
+   ]}
+ ]},
+ {id:'panchang',name:'Panchang (the daily calendar)',t:'m',blurb:'The five limbs and the day’s windows',uses:'Panchang front and back, Today, term cards',groups:[
+   {g:'The five limbs',items:[
+     T('Panchang','The five limbs of the day'),T('Tithi','Lunar day, 30 in a month'),T('Vara','Weekday'),T('Nakshatra','The Moon’s star today'),T('Yoga','A Sun and Moon combination'),T('Karana','Half a Tithi')
+   ]},
+   {g:'Tithi',small:'15 names, repeated in each half of the month',items:[
+     T('Pratipada','1st day'),T('Dwitiya','2nd day'),T('Tritiya','3rd day'),T('Chaturthi','4th day'),T('Panchami','5th day'),
+     T('Shashthi','6th day'),T('Saptami','7th day'),T('Ashtami','8th day'),T('Navami','9th day'),T('Dashami','10th day'),
+     T('Ekadashi','11th day, a fasting day'),T('Dwadashi','12th day'),T('Trayodashi','13th day'),T('Chaturdashi','14th day'),
+     T('Purnima / Amavasya','Full moon / new moon')
+   ]},
+   {g:'Paksha',items:[T('Shukla Paksha','The growing Moon half'),T('Krishna Paksha','The fading Moon half')]},
+   {g:'Vara (weekdays)',items:[
+     T('Ravivara','Sunday · Sun'),T('Somavara','Monday · Moon'),T('Mangalavara','Tuesday · Mars'),T('Budhavara','Wednesday · Mercury'),
+     T('Guruvara','Thursday · Jupiter'),T('Shukravara','Friday · Venus'),T('Shanivara','Saturday · Saturn')
+   ]},
+   {g:'Yoga',small:'27 names. Nine are traditionally read as difficult',items:[
+     T('Vishkambha','A pillar, or an obstacle',true),T('Priti','Affection'),T('Ayushman','Long life'),T('Saubhagya','Good fortune'),T('Shobhana','Splendour'),
+     T('Atiganda','Obstacles',true),T('Sukarma','Good action'),T('Dhriti','Steadiness'),T('Shula','A sharp edge',true),T('Ganda','A knot',true),
+     T('Vriddhi','Growth'),T('Dhruva','Fixed, lasting'),T('Vyaghata','Striking',true),T('Harshana','Joy'),T('Vajra','Thunderbolt',true),
+     T('Siddhi','Things come together'),T('Vyatipata','Calamity',true),T('Variyana','Comfort'),T('Parigha','A barrier',true),T('Shiva','Auspicious'),
+     T('Siddha','Accomplished'),T('Sadhya','Achievable'),T('Shubha','Auspicious'),T('Shukla','Bright'),T('Brahma','Creative'),
+     T('Indra','Leadership'),T('Vaidhriti','Separation',true)
+   ]},
+   {g:'Karana',small:'11 names. Vishti is the one read as difficult',items:[
+     T('Bava','Routine work'),T('Balava','Steady effort'),T('Kaulava','Friendly'),T('Taitila','Calm'),T('Gara','Practical'),T('Vanija','Trade'),
+     T('Vishti','Often called Bhadra',true),T('Shakuni','Fixed'),T('Chatushpada','Fixed'),T('Naga','Fixed'),T('Kimstughna','Fixed')
+   ]},
+   {g:'Windows and timings',items:[
+     T('Abhijit Muhurat','A favourable window near midday'),T('Brahma Muhurta','The calm hour before dawn'),
+     T('Rahu Kalam','A weekday window for routine rather than new starts',true),T('Yamaganda','Another go-gently window',true),T('Gulika Kalam','A third go-gently window',true),
+     T('Sunrise / sunset','The Panchang day runs from sunrise')
+   ]}
+ ]},
+ {id:'transits',name:'Transits (Gochar)',t:'s',blurb:'Where planets are now, relative to your chart',uses:'Moon transit alerts, Gochar, Moon transit detail',groups:[
+   {g:'Moon transits',t:'m',items:[
+     T('Chandra Gochar','The Moon’s position now, counted from your Moon sign'),T('Moon sign change','Every 2–3 days'),T('Nakshatra change','About once a day'),
+     T('Chandrashtama','The Moon in the 8th from your sign',true)
+   ]},
+   {g:'Planet transits',t:'s',items:[
+     T('Gochar','A planet’s movement through the signs'),T('Transit house','Which of your houses a planet is passing through')
+   ]}
+ ]},
+ {id:'matching',name:'Matching (Guna Milan)',t:'s',blurb:'The eight factors behind Match the Energies',uses:'Match the Energies, Match result',note:'Care-handled throughout. Scores describe fit, never a verdict on a relationship. Dosha terms (such as Mangal and Nadi dosha) are held back until the wording is approved.',groups:[
+   {g:'The eight factors (Kootas)',small:'36 points in total',items:[
+     T('Varna · 1','Inner outlook'),T('Vashya · 2','Mutual influence'),T('Tara · 3','Birth-star harmony'),T('Yoni · 4','Instinctive fit'),
+     T('Graha Maitri · 5','Mental friendship'),T('Gana · 6','Temperament'),T('Bhakoot · 7','Emotional and family harmony'),T('Nadi · 8','Vitality of the pair')
+   ]},
+   {g:'Concepts',items:[T('Guna Milan','The 36-point matching system'),T('Total score','Out of 36')]}
+ ]},
+ {id:'reading',name:'Reading the chart',t:'m',blurb:'How to look at a Kundli',uses:'Birth chart (North and South), Planet profiles',groups:[
+   {g:'Layouts',t:'m',items:[T('North Indian style','Diamond layout; houses are fixed')]},
+   {g:'Alternative layout',t:'s',items:[T('South Indian style','Square layout; signs are fixed')]},
+   {g:'Planet conditions',t:'c',items:[
+     T('Conjunction (Yuti)','Planets sharing a house'),T('Aspect (Drishti)','A planet’s influence on another house'),
+     T('Exalted (Uchcha)','A planet at its strongest'),T('Own sign (Swakshetra)','A planet at home'),
+     T('Debilitated (Neecha)','A planet working harder',true),T('Retrograde (Vakri)','A planet appearing to move backward',true),T('Combust (Asta)','A planet too close to the Sun',true)
+   ]}
+ ]}
+];
+
+
+const tierLabel={m:'Must',s:'Should',c:'Could'};
+const count = b => b.groups.reduce((n,g)=>n+g.items.length,0);
+
+function render(){
+  document.getElementById('branches').innerHTML = branches.map((b,i)=>{
+    const n = count(b);
+    const groups = b.groups.map(g=>{
+      const gt = g.t && g.t!==b.t ? `<span class="tag ${g.t}">${tierLabel[g.t]}</span>` : '';
+      const head = (g.g||gt) ? `<h4>${g.g?`<span class="lab">${g.g}</span>`:''}${g.small?`<small>${g.small}</small>`:''}${gt}</h4>` : '';
+      return `<div class="grp">${head}<div class="terms">${g.items.map(t=>
+        `<div class="t" data-s="${(t[0]+' '+t[1]).toLowerCase()}" data-tier="${g.t||b.t}" data-care="${t[2]?1:0}"><b>${t[0]}</b>${t[2]?'<i class="led on" title="Care-handled"></i>':''}<i>${t[1]}</i></div>`).join('')}</div></div>`;
+    }).join('');
+    return `<details class="br" data-id="${b.id}"><summary><i class="rled"></i><span class="bnum ${b.t}">${String(i+1).padStart(2,'0')}</span><span class="bt"><b>${b.name}</b><span>${b.blurb}</span></span><span class="meta"><span class="lcd digits ${b.t}">${n}<small>terms</small></span><span class="tag ${b.t}">${tierLabel[b.t]}</span><span class="tog"><b>▾</b><em></em></span></span></summary>
+      <div class="inner"><p class="uses"><b>Used by:</b> ${b.uses}</p>${b.note?`<p class="note">${b.note}</p>`:''}${groups}</div></details>`;
+  }).join('');
+
+}
+render();
+
+/* ---- list panels ---- */
+(function(){
+  const names=[
+    ['Moon sign','Chandra Rashi','You at a glance, Today'],
+    ['Birth star','Janma Nakshatra','You at a glance, Nakshatra deep dive'],
+    ['Rising sign','Lagna','You at a glance, Chart'],
+    ['Life phase','Dasha (Mahadasha)','Life phase card, Dasha timeline'],
+    ['Sub-phase','Antardasha','Antardasha detail'],
+    ['Transits','Gochar','Gochar, Moon transit alerts'],
+    ['Match the Energies','Guna Milan','Match result'],
+    ['Good windows','Shubha Muhurat (e.g. Abhijit)','Panchang front, Panchang back'],
+    ['Go gently windows','Rahu Kalam, Yamaganda, Gulika','Panchang back'],
+    ['Houses','Bhava','Chart, Life-domain view']
+  ];
+  document.getElementById('namemap').innerHTML =
+    '<div class="bhead pb"><span>In the app</span><span></span><span>Classical term</span><span>Where it appears</span></div>' +
+    names.map(n=>`<div class="pb"><span class="plate">${n[0]}</span><span class="wire" aria-hidden="true"><i></i><i></i></span><span class="plate dk"><i class="led on"></i>${n[1]}</span><span>${n[2].split(', ').map(x=>`<span class="chp">${x}</span>`).join('')}</span></div>`).join('');
+
+  const hname={1:'Tanu',2:'Dhana',4:'Sukha',5:'Putra',6:'',7:'Kalatra',10:'Karma',11:'Labha'};
+  const ord=n=>n+(n===1?'st':n===2?'nd':n===3?'rd':'th');
+  const doms=[['Career',[10],['Surya','Shani']],['Love',[7,5],['Shukra']],['Health',[1,6],['Surya','Chandra']],['Money',[2,11],['Guru']],['Family',[4],['Chandra']]];
+  document.getElementById('domainmap').innerHTML =
+    '<div class="bhead ch"><span>Domain</span><span>Houses 1–12</span><span>Planets</span></div>' +
+    doms.map(d=>`<div class="ch"><span class="plate">${d[0]}</span><div><div class="leds">${Array.from({length:12},(_,i)=>`<div><b class="${d[1].includes(i+1)?'on':''}"></b><small>${i+1}</small></div>`).join('')}</div><div class="hn">${d[1].slice().sort((a,b)=>b-a===0?0:(a-b)).map(h=>ord(h)+(hname[h]?' ('+hname[h]+')':'')).join(' · ')}</div></div><div class="pl">${d[2].map(x=>`<span class="plate dk">${x}</span>`).join('')}</div></div>`).join('');
+
+  const mx=Math.max(...branches.map(count));let tot=0;
+  document.getElementById('volmap').innerHTML =
+    '<div class="bhead vr"><span>Branch</span><span>Share of the biggest set</span><span style="text-align:center">Cards</span><span>Priority</span></div>' +
+    branches.map(b=>{const n=count(b);tot+=n;const on=Math.max(1,Math.round(n/mx*32));
+      return `<div class="vr"><span class="plate">${b.name}</span><div class="seg ${b.t}" aria-hidden="true">${Array.from({length:32},(_,i)=>`<u class="${i<on?'on':''}"></u>`).join('')}</div><span class="lcd digits ${b.t}">${n}</span><span class="tag ${b.t}" style="justify-self:start">${tierLabel[b.t]}</span></div>`}).join('') +
+    `<div class="vtot"><span class="lab">Total cards</span><span class="lcd digits" id="tot">${tot}</span></div>`;
+})();
+
+const all = () => document.querySelectorAll('details.br');
+document.getElementById('open').onclick = ()=>all().forEach(d=>d.open=true);
+document.getElementById('close').onclick = ()=>all().forEach(d=>d.open=false);
+const gl=document.getElementById('gl');
+gl.onclick=()=>{const on=gl.getAttribute('aria-pressed')==='true';gl.setAttribute('aria-pressed',String(!on));document.getElementById('branches').classList.toggle('nogloss',on);};
+let FLT=null;
+function apply(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  all().forEach(d=>{
+    let any=false;
+    d.querySelectorAll('.grp').forEach(g=>{
+      let gany=false;
+      g.querySelectorAll('.t').forEach(t=>{
+        const okq=!q||t.dataset.s.includes(q);
+        const okf=!FLT||(FLT==='care'?t.dataset.care==='1':t.dataset.tier===FLT);
+        const hit=okq&&okf;t.classList.toggle('hide',!hit);if(hit)gany=true;
+      });
+      g.classList.toggle('hide',!gany); if(gany)any=true;
+    });
+    d.classList.toggle('hide',!any);
+    if((q||FLT)&&any) d.open=true;
+  });
+}
+document.getElementById('q').addEventListener('input',apply);
+document.querySelectorAll('.flt').forEach(b=>b.addEventListener('click',()=>{
+  const on=b.getAttribute('aria-pressed')==='true';
+  document.querySelectorAll('.flt').forEach(x=>x.setAttribute('aria-pressed','false'));
+  FLT=on?null:b.dataset.f; if(!on) b.setAttribute('aria-pressed','true');
+  apply();
+}));
+
+const hd=document.getElementById('hd'),trk=document.getElementById('trk');
+const maxScroll=()=>document.documentElement.scrollHeight-innerHeight;
+function pos(){const m=maxScroll();const r=m>0?scrollY/m:0;hd.style.top=(r*(trk.clientHeight-34))+'px';trk.setAttribute('aria-valuenow',Math.round(r*100));}
+function toY(cy){const b=trk.getBoundingClientRect();let p=(cy-b.top-17)/(b.height-34);p=Math.min(1,Math.max(0,p));scrollTo({top:p*maxScroll(),behavior:'instant'});}
+let drag=false;
+trk.addEventListener('pointerdown',e=>{drag=true;trk.setPointerCapture(e.pointerId);trk.classList.add('dg');toY(e.clientY);e.preventDefault();});
+trk.addEventListener('pointermove',e=>{if(drag)toY(e.clientY);});
+const end=()=>{drag=false;trk.classList.remove('dg');};
+trk.addEventListener('pointerup',end);trk.addEventListener('pointercancel',end);
+trk.addEventListener('keydown',e=>{const m=maxScroll(),s=m*.1;const k={ArrowUp:-s,ArrowLeft:-s,PageUp:-s*3,ArrowDown:s,ArrowRight:s,PageDown:s*3}[e.key];
+  if(k!==undefined){scrollBy({top:k,behavior:'instant'});e.preventDefault();}
+  else if(e.key==='Home'){scrollTo({top:0,behavior:'instant'});e.preventDefault();}
+  else if(e.key==='End'){scrollTo({top:m,behavior:'instant'});e.preventDefault();}});
+addEventListener('scroll',pos,{passive:true});addEventListener('resize',pos);pos();
+
+const navLinks=[...document.querySelectorAll('.nav a')];
+const secs=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){navLinks.forEach(a=>a.classList.toggle('dn',a.getAttribute('href')==='#'+e.target.id));}}),{rootMargin:'-25% 0px -65% 0px'});
+secs.forEach(s=>s&&io.observe(s));
+</script>
+</body>
+</html>

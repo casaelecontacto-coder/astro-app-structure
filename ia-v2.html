@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Astro App Information Architecture</title>
+<style>
+:root{
+  --bg:#ECF0F3; --ink:#2d3142; --mid:#5b6475; --dk:#d1d9e6; --lt:#ffffff;
+  --must:#8a6416; --should:#4a4fb5; --could:#1f6f65; --new:#8a3b52;
+  --r:#ECF0F3;
+  --raise:6px 6px 14px var(--dk),-6px -6px 14px var(--lt);
+  --raise-s:3px 3px 8px var(--dk),-3px -3px 8px var(--lt);
+  --inset:inset 4px 4px 9px var(--dk),inset -4px -4px 9px var(--lt);
+  --inset-s:inset 2px 2px 5px var(--dk),inset -2px -2px 5px var(--lt);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Avenir Next","Helvetica Neue",-apple-system,Arial,sans-serif}
+a{color:inherit}
+.wrap{max-width:1380px;margin:0 auto;padding:28px 28px 90px}
+
+/* header */
+header{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between;margin-bottom:10px}
+h1{font-size:30px;line-height:1.15;margin:0 0 6px;font-weight:700;letter-spacing:-.01em}
+.lead{color:var(--mid);max-width:680px;margin:0}
+.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.filters span.l{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);font-weight:600}
+.btn{font:600 13px/1 inherit;font-family:inherit;color:var(--ink);background:var(--bg);border:0;border-radius:14px;padding:10px 16px;cursor:pointer;box-shadow:var(--raise-s);transition:box-shadow .15s}
+.btn:hover{box-shadow:var(--raise)}
+.btn.on{box-shadow:var(--inset-s)}
+.btn:focus-visible{outline:2px solid var(--should);outline-offset:2px}
+
+nav.jump{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 0;position:sticky;top:0;z-index:30;background:var(--bg);padding:14px 4px 16px;box-shadow:0 10px 12px -10px var(--dk)}
+nav.jump a{text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:12px;box-shadow:var(--raise-s)}
+nav.jump a:hover{box-shadow:var(--inset-s)}
+nav.jump a.on{box-shadow:var(--inset-s)}
+nav.jump a:focus-visible{outline:2px solid var(--should);outline-offset:2px}
+@media (max-width:640px){nav.jump{flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:10px 4px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}nav.jump::-webkit-scrollbar{display:none}nav.jump a{flex:none;font-size:12.5px;padding:8px 12px}}
+
+section{padding-top:46px;scroll-margin-top:72px}
+h2{font-size:22px;margin:0 0 4px;font-weight:700}
+.sub2{color:var(--mid);margin:0 0 20px;max-width:760px}
+
+/* generic neumorphic surfaces */
+.neo{background:var(--bg);border-radius:20px;box-shadow:var(--raise)}
+.neo-in{background:var(--bg);border-radius:16px;box-shadow:var(--inset)}
+
+/* badges */
+.bd{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.03em;padding:3px 8px;border-radius:99px;box-shadow:var(--inset-s);white-space:nowrap}
+.bd:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.bd.m{color:var(--must)}.bd.s{color:var(--should)}.bd.c{color:var(--could)}.bd.x{color:var(--new)}
+.bd.paid{color:var(--mid)}.bd.paid:before{border-radius:2px}
+
+/* root map */
+.rootmap{display:flex;flex-direction:column;align-items:center;gap:0}
+.root{padding:18px 40px;text-align:center;font-weight:700;font-size:18px;position:relative}
+.root small{display:block;font-weight:500;color:var(--mid);font-size:12.5px}
+.stem{width:3px;height:26px;background:var(--dk);border-radius:2px}
+.rail{position:relative;width:min(900px,92%);height:3px;background:var(--dk);border-radius:2px}
+.drops{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:min(900px,92%);margin-top:0}
+.drop{display:flex;flex-direction:column;align-items:center}
+.drop:before{content:"";width:3px;height:24px;background:var(--dk);border-radius:2px}
+.grp{padding:18px 20px;width:100%;text-align:center}
+.grp h3{margin:0 0 2px;font-size:16px}
+.grp p{margin:0;color:var(--mid);font-size:13px}
+.tabsrow{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.tabsrow span{font-size:12px;font-weight:600;padding:6px 11px;border-radius:10px;box-shadow:var(--raise-s)}
+
+/* locked screens strip */
+.locked{display:grid;grid-template-columns:minmax(260px,330px) minmax(300px,1fr);gap:26px;align-items:start}
+.lk{padding:22px;display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.lk img{border-radius:18px;box-shadow:var(--raise);display:block;background:#fff}
+.lk .img1{height:430px}
+.lk .img2{height:380px;max-width:100%}
+.lk h3{margin:0 0 6px;font-size:16px}
+.lk ul{margin:0;padding-left:18px;color:var(--mid);font-size:13.5px}
+.lk li{margin:3px 0}
+.lk .txt{flex:1;min-width:210px}
+
+/* tabs tree */
+.cols{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;align-items:start}
+.col{padding:14px 12px 12px}
+.colhead{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.ic{width:38px;height:38px;border-radius:50%;box-shadow:var(--inset-s);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.colhead h3{margin:0;font-size:16px;line-height:1.1}
+.colhead p{margin:2px 0 0;font-size:12px;color:var(--mid);line-height:1.3}
+.node{position:relative;transition:opacity .2s}
+.node.dim>.card,.p.node.dim{opacity:.22}
+.card{background:var(--bg);border-radius:14px;box-shadow:var(--raise-s);padding:9px 10px;margin:0 0 9px}
+.card .top{display:flex;justify-content:space-between;gap:6px;align-items:flex-start}
+.card .name{font-weight:650;font-size:13.5px;line-height:1.25}
+.card .badges{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}
+.card .sd{font-size:12px;color:var(--mid);margin-top:3px;line-height:1.35}
+.flag{margin-top:6px;font-size:11.5px;line-height:1.35;padding:6px 8px;border-radius:9px;box-shadow:var(--inset-s);color:#7a3a2e}
+.kids{margin-left:13px;padding-left:10px;border-left:3px solid var(--dk);border-radius:2px}
+.kids>.node>.card{position:relative}
+.kids>.node>.card:before{content:"";position:absolute;left:-13px;top:19px;width:10px;height:3px;background:var(--dk);border-radius:2px}
+.kids .card{box-shadow:var(--raise-s);background:var(--bg)}
+.kids .kids .card{padding:7px 9px}
+.kids .kids .name{font-size:12.5px;font-weight:600}
+
+/* onboarding + outside */
+.two{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;align-items:start}
+.steps{display:flex;flex-direction:column;gap:12px;padding:18px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step .num{width:28px;height:28px;border-radius:50%;box-shadow:var(--inset-s);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none}
+.step .n2{font-weight:650;font-size:13.5px}
+.step .d2{font-size:12.5px;color:var(--mid)}
+.pad{padding:18px}
+
+/* pattern grid */
+.pat{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.pat .p{padding:16px}
+.pat h4{margin:0 0 4px;font-size:14.5px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.pat p{margin:0;color:var(--mid);font-size:13px}
+
+/* flows */
+.flow{padding:18px;margin-bottom:18px}
+.flow h4{margin:0 0 4px;font-size:15px}
+.flow .why{margin:0 0 12px;color:var(--mid);font-size:13px}
+.chain{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chain .s{font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:12px;box-shadow:var(--raise-s)}
+.chain .s.paywall{box-shadow:var(--inset-s)}
+.chain i{font-style:normal;color:var(--mid)}
+
+/* table */
+table{width:100%;border-collapse:separate;border-spacing:0 10px;font-size:13.5px}
+th{text-align:left;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);padding:0 14px 0}
+td{padding:11px 14px;background:var(--bg)}
+tr td:first-child{border-radius:12px 0 0 12px;box-shadow:inset 2px 2px 5px var(--dk),inset -2px 0 5px var(--lt)}
+tr td:last-child{border-radius:0 12px 12px 0}
+tbody tr{box-shadow:var(--raise-s);border-radius:12px}
+
+/* gaps */
+.gaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.gap{padding:16px 18px}
+.gap h4{margin:0 0 4px;font-size:14.5px}
+.gap p{margin:0 0 8px;color:var(--mid);font-size:13px}
+.gap .rec{font-size:13px;padding:8px 10px;border-radius:10px;box-shadow:var(--inset-s)}
+
+@media (max-width:1200px){.cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){.cols{grid-template-columns:1fr}.two,.locked{grid-template-columns:1fr}.drops{grid-template-columns:1fr}.rail{display:none}.stem{display:none}}
+
+/* ---- hierarchy ---- */
+.node.d0>.card{padding:13px 12px 12px;border-radius:16px;box-shadow:var(--raise);margin-bottom:10px}
+.node.d0>.card .name{font-size:15.5px;font-weight:700}
+.node.d0>.card .sd{font-size:12.5px}
+.role{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--mid);margin-bottom:5px}
+.gwrap{margin:2px 0 10px 10px}
+.glabel{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);font-weight:700;margin:2px 0 7px 2px}
+.kids{margin-left:6px;padding-left:12px;border-left:3px solid #bcc6d6;border-radius:2px}
+.kids>.node>.card:before{background:#bcc6d6;left:-15px;width:12px}
+.node.is-part>.card{box-shadow:var(--inset-s);padding:7px 10px}
+.node.is-part>.card .name{font-size:12.5px;font-weight:600}
+.node.is-part>.card .sd{font-size:11.5px}
+.node.d2.is-screen>.card .name{font-size:13px}
+.node.d3.is-screen>.card .name,.node.d4.is-screen>.card .name{font-size:12.5px;font-weight:600}
+.node.d3.is-screen>.card .sd,.node.d4.is-screen>.card .sd{font-size:11.5px}
+.node.d3.is-screen>.card,.node.d4.is-screen>.card{padding:7px 9px}
+.hier{font-size:12.5px;color:var(--mid);margin:-8px 0 18px;max-width:760px}
+.hier b{color:var(--ink)}
+
+/* ---- less text ---- */
+.card .sd{display:none}
+.node.d0>.card .sd{display:block}
+body.show-sd .card .sd,.card.open .sd{display:block}
+.card{cursor:pointer;padding:8px 10px;margin-bottom:8px}
+.node.d0>.card{cursor:default}
+.card:hover{box-shadow:var(--raise)}
+.node.is-part>.card:hover{box-shadow:var(--inset)}
+.card .name{line-height:1.2}
+.legend-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:18px}
+.tipline{font-size:12px;color:var(--mid);margin-left:6px}
+.dtw{margin-left:auto}
+.dtw .btn.on{box-shadow:var(--inset-s)}
+header{align-items:center}
+.gwrap{margin:0 0 6px 10px}
+.glabel{margin:2px 0 6px 2px}
+</style>
+<script>if(/[?&]from=hero/.test(location.search)){document.documentElement.classList.add('arrive');try{history.replaceState(null,'',location.pathname+location.hash)}catch(e){}}</script>
+<style>html.arrive::before{content:"";position:fixed;inset:0;z-index:9999;background:#ECF0F3;pointer-events:none;animation:arriveVeil .9s .15s ease-out forwards}@keyframes arriveVeil{to{opacity:0;visibility:hidden}}@media (prefers-reduced-motion:reduce){html.arrive::before{display:none}}</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>Astro App · Information Architecture</h1>
+    <p class="lead">Every screen and entry point in V1, by priority.</p>
+  </div>
+  <div class="dtw"><button class="btn" id="dt" aria-pressed="false">Show details</button></div>
+  <div class="filters" role="group" aria-label="Highlight by priority">
+    <span class="l">Highlight</span>
+    <button class="btn on" data-f="all">All</button>
+    <button class="btn" data-f="m">Must</button>
+    <button class="btn" data-f="s">Should</button>
+    <button class="btn" data-f="c">Could</button>
+    <button class="btn" data-f="x">Not in plan</button>
+  </div>
+</header>
+
+<nav class="jump" aria-label="Sections">
+  <a href="#map">Overview</a><a href="#tabs">Main tabs</a><a href="#first">First run &amp; outside</a><a href="#patterns">Shared patterns</a><a href="#flows">Key flows</a><a href="#links">Deep links</a>
+</nav>
+
+<!-- OVERVIEW -->
+<section id="map">
+  <h2>Overview</h2>
+  <p class="sub2">First run, five tabs, and the widget and notifications that bring people back.</p>
+  <div class="rootmap">
+    <div class="root neo">Astro App<small>iOS first · English · Vedic</small></div>
+    <div class="stem"></div>
+    <div class="rail"></div>
+    <div class="drops">
+      <div class="drop"><div class="grp neo"><h3>First run</h3><p>9 steps, once</p></div></div>
+      <div class="drop"><div class="grp neo"><h3>Main app</h3><p>5 tabs, used daily</p>
+        <div class="tabsrow"><span>Today</span><span>Panchang</span><span>Chart</span><span>People</span><span>Me</span></div></div></div>
+      <div class="drop"><div class="grp neo"><h3>Outside the app</h3><p>Widget · 2 notifications</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN TABS -->
+<section id="tabs">
+  <h2>Main tabs</h2>
+  <p class="sub2 legend-row"><span class="bd m">Must</span> <span class="bd s">Should</span> <span class="bd c">Could</span> <span class="bd x">Not in plan</span> <span class="bd paid">Paid</span><span class="tipline">Raised = screen · Pressed-in = on the page · Tap a card for details</span></p>
+  <div class="cols" id="cols"></div>
+</section>
+
+<!-- FIRST RUN + OUTSIDE -->
+<section id="first">
+  <h2>First run &amp; outside the app</h2>
+  <p class="sub2">Setup collects what a chart needs, then lands on Today.</p>
+  <div class="two">
+    <div class="steps neo" id="steps"></div>
+    <div class="pad neo">
+      <h3 style="margin:0 0 12px;font-size:16px">Outside the app</h3>
+      <div id="outside"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PATTERNS -->
+<section id="patterns">
+  <h2>Shared patterns</h2>
+  <p class="sub2">Reused across many screens.</p>
+  <div class="pat" id="pat"></div>
+</section>
+
+<!-- FLOWS -->
+<section id="flows">
+  <h2>Key flows</h2>
+  <p class="sub2">Paths the first-week return goal depends on.</p>
+  <div id="flowlist"></div>
+</section>
+
+<!-- DEEP LINKS -->
+<section id="links">
+  <h2>Deep links</h2>
+  <p class="sub2">Where each outside entry point lands.</p>
+  <table>
+    <thead><tr><th>Entry point</th><th>Lands on</th><th>If offline</th></tr></thead>
+    <tbody id="dl"></tbody>
+  </table>
+</section>
+
+</div>
+
+<script>
+/* ---------- data ---------- */
+const N = (n, t, s, o={}) => ({n, t, s, ...o});
+const tabs = [
+ {ic:'☀', h:'Today', p:'The daily reading, opened every morning', root:
+   N('Reading as a page','m','Headline, reading, audio, affirmation',{role:'Home screen',groups:[
+     {label:'On this page',part:1,kids:[
+       N('Audio player','m','Read-aloud, about 1:20; mini-player keeps playing'),
+       N('Domain sections','m','Career · Love · Health · Money, scroll or jump'),
+       N('Affirmation','m','Same text as the home screen widget')
+     ]},
+     {label:'Opens',kids:[
+       N('Energy streak','m','Stage, day count, next stage',{groups:[{label:'Opens',kids:[N('Shareable energy card','c','Streak stage only, no birth details')]}]}),
+       N('Tomorrow’s preview','m','Theme only, appears about 9 pm'),
+       N('Life phase card','m','Current period and end date; opens the Dasha timeline in Chart'),
+       N('Week’s overview','c','The coming week’s themes',{paid:1})
+     ]}
+   ]})},
+ {ic:'☾', h:'Panchang', p:'One day card, flip for detail', root:
+   N('Day card','m','Today’s Panchang; flip the card for the detail',{role:'Main screen',groups:[
+     {label:'On this card',part:1,kids:[
+       N('Front','m','Today is [Tithi], one-line mood, good windows'),
+       N('Back','m','Five limbs, sunrise and sunset, Good/Avoid windows'),
+       N('Day navigation','m','‹ previous day · next day ›'),
+       N('Saved days (bookmark)','x','Bottom bar has a bookmark icon'),
+       N('Share Panchang','x','Bottom bar has a share icon')
+     ]},
+     {label:'Opens',kids:[
+       N('Limb meaning card','m','Bottom sheet from any underlined term'),
+       N('Moon transit detail','m','Sign or Nakshatra change time and what it means for you'),
+       N('Location','x','City sets sunrise-based timings')
+     ]}
+   ]})},
+ {ic:'✦', h:'Chart', p:'Your birth chart and what it means', root:
+   N('You at a glance','m','Moon sign, birth star, rising sign, key placements',{role:'Main screen',groups:[
+     {label:'On this page',part:1,kids:[
+       N('Birth chart','m','North Indian diamond grid',{groups:[{label:'Options',part:1,kids:[
+         N('South Indian style','s','Toggle on the same screen'),
+         N('Export as PDF or image','c','')
+       ]}]})
+     ]},
+     {label:'Opens',kids:[
+       N('Life phase (Dasha)','m','Current period, what it is about, when it ends',{groups:[{label:'Opens',kids:[
+         N('Full Dasha timeline','s','Past and future periods',{paid:1,groups:[{label:'Opens',kids:[N('Antardasha detail','c','Sub-period within the current one',{paid:1})]}]})
+       ]}]}),
+       N('Gochar (transits)','s','Planets now, relative to your chart',{paid:1}),
+       N('Planet profiles','s','“Your Saturn”, “Your Venus”',{paid:1,groups:[{label:'Opens',kids:[N('Planet detail','s','Placement, house, plain meaning')]}]}),
+       N('Life-domain view','s','Career, love, health with planets behind each',{paid:1,groups:[{label:'Opens',kids:[N('Domain detail','s','Which planets, why')]}]}),
+       N('Nakshatra deep dive','c','Traits, strengths, Dasha link',{paid:1}),
+       N('Kundli report','c','Full paid report, downloadable',{paid:1})
+     ]}
+   ]})},
+ {ic:'☺', h:'People', p:'Family and friends', root:
+   N('People list','s','Free limit to be decided',{role:'Main screen',groups:[
+     {label:'Opens',kids:[
+       N('Add person','s','Birth details form, same as first run'),
+       N('Person profile','s','Connection headline free, details paid',{groups:[{label:'On this page',part:1,kids:[
+         N('Connection headline','s','One line'),
+         N('Full details','s','',{paid:1})
+       ]}]}),
+       N('Match the Energies','s','“Guna Milan” in the subtext',{paid:1,groups:[{label:'Opens',kids:[N('Match result','s','Care-handled wording, no fear framing')]}]})
+     ]}
+   ]})},
+ {ic:'≡', h:'Me', p:'Settings and account', root:
+   N('Settings','m','Everything you can change',{role:'Main screen',groups:[
+     {label:'Opens',kids:[
+       N('Birth details','m','Gender, date, time and place; view and correct',{groups:[{label:'Opens',kids:[N('Edit with warning','m','Chart and readings will change')]}]}),
+       N('Notifications','m','Time, topics, Moon alert level, preview time'),
+       N('Look &amp; accessibility','m','Large text, dark mode, screen reader',{groups:[{label:'On this page',part:1,kids:[
+         N('Large text','m','Scales across the whole app'),
+         N('Dark mode · screen reader','s','')
+       ]}]}),
+       N('Data &amp; offline','m','Low-data mode, what is saved offline'),
+       N('Subscription','m','Plan, welcome offer, manage',{groups:[{label:'Opens',kids:[
+         N('Paywall','m','Always closable; opens from any paid item'),
+         N('Gift a subscription','c',''),
+         N('Referral rewards','c','')
+       ]}]}),
+       N('Account','m','Optional sign-in, sync, sign out')
+     ]}
+   ]})}
+];
+
+const steps = [
+ ['Welcome','What the app does, in one line'],
+ ['Gender','Asked once during setup'],
+ ['Birth date','Required'],
+ ['Birth time','Or “I don’t know”: a time range is used and results are labelled “likely”'],
+ ['Birth place','Needed for the rising sign and timings'],
+ ['Chart reveal','First look at “You at a glance”'],
+ ['Notifications','Choose time and topics before any are sent'],
+ ['Sign in (optional)','Gentle, skippable'],
+ ['Paywall','Closable, with the welcome offer; then Today']
+];
+const outside = [
+ N('Home screen widget','m','Affirmation and streak stage; opens Today'),
+ N('Tomorrow’s preview notification','m','Night-time theme hint; opens Today › Tomorrow’s preview'),
+ N('Moon transit alert','m','Sign or Nakshatra change; opens Panchang › Moon transit detail')
+];
+
+const patterns = [
+ ['Term meaning card','m','A bottom sheet from any underlined word, with “See it in my chart”. Used on Today, Panchang, Chart and People.'],
+ ['Paywall sheet','m','Opens from any paid item. Always closable, returns to the item. One plan, welcome offer for new users.'],
+ ['Audio mini-player','m','Starts on Today, persists across tabs, can be paused anywhere.'],
+ ['“Likely” labels','m','When birth time is unknown, time-dependent results carry a “likely” tag. Editing birth details clears it.'],
+ ['Offline &amp; low-data state','m','Chart and last daily message stay readable. A quiet banner shows when content is cached.']
+];
+
+const flows = [
+ ['First run to first reading','Gets a new user to a real reading in under two minutes.',[['Welcome'],['Gender'],['Birth date'],['Birth time'],['Birth place'],['Chart reveal'],['Notifications'],['Sign in, skippable'],['Paywall, closable','p'],['Today']]],
+ ['The daily loop','The habit the first-week return metric measures.',[['Notification or widget'],['Today'],['Listen or read'],['Panchang'],['Streak updates']]],
+ ['Learn as you read','Every unfamiliar term becomes a short lesson.',[['Underlined term'],['Meaning card'],['See it in my chart'],['Chart']]],
+ ['Upgrade','Triggered by curiosity, never a hard wall.',[['Tap a paid item'],['Paywall sheet','p'],['Close or subscribe'],['Back to the item']]],
+ ['Add someone and match','Free headline first, depth behind the paywall.',[['People'],['Add person'],['Connection headline, free'],['Full details','p'],['Match the Energies']]]
+];
+
+const dl = [
+ ['Home screen widget','Today','Shows the last affirmation'],
+ ['Tomorrow’s preview notification','Today › Tomorrow’s preview','Shows the cached preview'],
+ ['Moon transit alert','Panchang › Moon transit detail','Shows the cached day card'],
+ ['Tap on an underlined term (anywhere)','Term meaning card, then Chart','Cards are bundled and work offline'],
+ ['Paid item tapped by a free user','Paywall sheet, then back to the item','Paywall needs a connection; the item stays locked']
+];
+
+
+/* ---------- render ---------- */
+const bdLabel = {m:'Must',s:'Should',c:'Could',x:'New'};
+function node(n,d=1,part=false){
+  const groups=(n.groups||[]).map(g=>`<div class="gwrap"><div class="glabel">${g.part?'▤':'↳'} ${g.label}</div><div class="kids">${g.kids.map(k=>node(k,d+1,!!g.part)).join('')}</div></div>`).join('');
+  const badges = `<span class="bd ${n.t}">${bdLabel[n.t]}</span>` + (n.paid ? `<span class="bd paid">Paid</span>` : '');
+  return `<div class="node d${d} ${part?'is-part':'is-screen'}" data-t="${n.t}"><div class="card">`
+    + (n.role ? `<div class="role">${n.role}</div>` : '')
+    + `<div class="top"><span class="name">${n.n}</span><span class="badges">${badges}</span></div>`
+    + (n.s ? `<div class="sd">${n.s}</div>` : '')
+    + `</div>${groups}</div>`;
+}
+document.getElementById('cols').innerHTML = tabs.map(t =>
+  `<div class="col neo"><div class="colhead"><div class="ic">${t.ic}</div><div><h3>${t.h}</h3><p>${t.p}</p></div></div>${node(t.root,0)}</div>`).join('');
+document.getElementById('steps').innerHTML = steps.map((s,i)=>
+  `<div class="step"><div class="num">${i+1}</div><div><div class="n2">${s[0]} <span class="bd m">Must</span></div><div class="d2">${s[1]}</div></div></div>`).join('');
+document.getElementById('outside').innerHTML = outside.map(n=>node(n)).join('');
+document.getElementById('pat').innerHTML = patterns.map(p=>
+  `<div class="p neo node" data-t="${p[1]}"><h4>${p[0]}<span class="bd ${p[1]}">${bdLabel[p[1]]}</span></h4><p>${p[2]}</p></div>`).join('');
+document.getElementById('flowlist').innerHTML = flows.map(f=>
+  `<div class="flow neo"><h4>${f[0]}</h4><p class="why">${f[1]}</p><div class="chain">${f[2].map((s,i)=>
+    `${i?'<i>→</i>':''}<span class="s ${s[1]==='p'?'paywall':''}">${s[0]}</span>`).join('')}</div></div>`).join('');
+document.getElementById('dl').innerHTML = dl.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+
+/* ---------- filter ---------- */
+document.querySelectorAll('.filters .btn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.filters .btn').forEach(x=>x.classList.toggle('on',x===b));
+  const f=b.dataset.f;
+  document.querySelectorAll('.node').forEach(n=>n.classList.toggle('dim', f!=='all' && n.dataset.t!==f));
+}));
+</script>
+
+<script>
+(function(){
+  const links=[...document.querySelectorAll('nav.jump a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>{const on=a.getAttribute('href')==='#'+e.target.id;a.classList.toggle('on',on);if(on&&a.scrollIntoView&&innerWidth<=640)a.scrollIntoView({inline:'center',block:'nearest'});});}}),{rootMargin:'-25% 0px -65% 0px'});
+  secs.forEach(s=>s&&io.observe(s));
+})();
+</script>
+
+<script>
+(function(){
+  const dt=document.getElementById('dt');
+  dt.addEventListener('click',()=>{const on=dt.getAttribute('aria-pressed')!=='true';dt.setAttribute('aria-pressed',String(on));dt.classList.toggle('on',on);dt.textContent=on?'Hide details':'Show details';document.body.classList.toggle('show-sd',on);});
+  document.getElementById('cols').addEventListener('click',e=>{const c=e.target.closest('.card');if(c&&c.querySelector('.sd')&&!c.parentElement.classList.contains('d0'))c.classList.toggle('open');});
+})();
+</script>
+</body>
+</html>
