@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Astro App Structure</title>
+<style>
+:root{--ink:#1d1d1f;--mid:#656a72;--line:#e2e4e8;--soft:#f6f7f9;--bg:#fff;--must:#9a4a06;--mustbg:#fdf0e3;--should:#34479f;--shouldbg:#e9edfb;--could:#11685e;--couldbg:#e3f3f0;--new:#9b2c48;--newbg:#fbe9ee;--paidbg:#eceef1}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 90px}
+header.top{padding:40px 0 20px}
+header.top h1{margin:0 0 6px;font-size:32px;line-height:1.15;letter-spacing:-.01em}
+header.top p{margin:0;color:var(--mid);max-width:640px}
+nav.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);margin:0 -20px;padding:0 20px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.bar::-webkit-scrollbar{display:none}
+nav.bar a{flex:none;padding:12px 12px;font-size:14px;color:var(--mid);text-decoration:none;border-bottom:2px solid transparent}
+nav.bar a:hover{color:var(--ink)}
+nav.bar a.on{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
+nav.bar .sep{flex:none;width:1px;background:var(--line);margin:10px 8px}
+section{scroll-margin-top:60px}
+h2.part{margin:56px 0 4px;font-size:26px;letter-spacing:-.01em}
+.lead{margin:0 0 24px;color:var(--mid)}
+h3{margin:36px 0 6px;font-size:20px}
+h3 small{font-weight:400;color:var(--mid);font-size:14px;margin-left:8px}
+.key{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:8px 0 0}
+.key h2{margin:0 0 10px;font-size:15px}
+.key dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:center;font-size:14.5px}
+.key dt{white-space:nowrap}
+.key dd{margin:0;color:var(--mid)}
+.pill{display:inline-block;font-size:11.5px;font-weight:600;line-height:1;padding:4px 8px;border-radius:99px;margin-left:6px;white-space:nowrap;vertical-align:1px}
+.pill.m{color:var(--must);background:var(--mustbg)}.pill.s{color:var(--should);background:var(--shouldbg)}.pill.c{color:var(--could);background:var(--couldbg)}.pill.x{color:var(--new);background:var(--newbg)}.pill.paid{color:var(--mid);background:var(--paidbg)}
+.key .pill{margin-left:0}
+/* first run */
+ol.steps{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;counter-reset:s}
+ol.steps li{counter-increment:s;border:1px solid var(--line);border-radius:10px;padding:12px 14px;position:relative}
+ol.steps li:before{content:counter(s);display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:600;align-items:center;justify-content:center;margin-bottom:6px}
+ol.steps b{display:block}
+ol.steps span{display:block;color:var(--mid);font-size:13.5px}
+/* tabs */
+.tab{border:1px solid var(--line);border-radius:14px;padding:6px 18px 18px;margin-top:18px}
+.tab h3{margin:14px 0 2px}
+.tab>p{margin:0 0 12px;color:var(--mid);font-size:14.5px}
+.main{background:var(--soft);border-radius:10px;padding:12px 14px}
+.mlabel,.glabel{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);font-weight:600;margin-bottom:4px}
+.glabel{margin:14px 0 6px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:2px 0}
+.nm{font-weight:600}
+.ds{color:var(--mid);font-size:14px;margin-top:1px}
+/* tab structure */
+.cols{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.cols.two{grid-template-columns:1fr 1fr}
+.cols .col{border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.cols h4{margin:0;font-size:15px}
+.hint{margin:2px 0 10px;color:var(--mid);font-size:13px}
+.entry{padding:10px 0;border-top:1px solid var(--line)}
+.entry:first-of-type{border-top:0;padding-top:0}
+.sub{margin-top:8px;padding-left:12px;border-left:3px solid var(--line)}
+.sub .sub{margin-top:6px}
+.srow{display:flex;flex-wrap:wrap;align-items:center;gap:2px 0}
+.rel{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);background:var(--soft);border:1px solid var(--line);border-radius:4px;padding:2px 5px;margin-right:8px}
+.sub .nm{font-weight:500}
+.sub .ds{font-size:13.5px}
+/* grids */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:12px}
+.card{border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.card .row{margin-bottom:2px}
+.card p{margin:0;color:var(--mid);font-size:14px}
+/* flows */
+.flow{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px}
+.flow h4{margin:0;font-size:16px}
+.flow p{margin:2px 0 10px;color:var(--mid);font-size:14px}
+.chain{display:flex;flex-wrap:wrap;gap:6px 0;align-items:center}
+.chain span{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:13.5px}
+.chain span.pw{border-style:dashed}
+.chain span+span:before{content:"→";color:var(--mid);margin:0 8px 0 -2px;position:relative;left:-6px}
+.chain span+span{position:relative}
+.chain i{font-style:normal;color:var(--mid);padding:0 8px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14.5px}
+th{text-align:left;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);border-bottom:2px solid var(--line);padding:8px 10px}
+td{border-bottom:1px solid var(--line);padding:10px;vertical-align:top}
+td:first-child{font-weight:600;white-space:nowrap}
+/* terms */
+details.topic{border:1px solid var(--line);border-radius:12px;margin-top:10px}
+details.topic>summary{list-style:none;cursor:pointer;display:flex;gap:12px;align-items:center;padding:14px 16px}
+details.topic>summary::-webkit-details-marker{display:none}
+details.topic>summary:before{content:"▸";color:var(--mid);transition:transform .15s;flex:none}
+details.topic[open]>summary:before{transform:rotate(90deg)}
+details.topic[open]>summary{border-bottom:1px solid var(--line)}
+.tn{flex:1;min-width:0}.tn b{display:block}.tn span{display:block;color:var(--mid);font-size:13.5px}
+.tc{color:var(--mid);font-size:13px;white-space:nowrap}
+.body{padding:6px 16px 16px}
+.used{font-size:13.5px;color:var(--mid);margin:10px 0 0}
+.note{background:var(--soft);border-radius:8px;padding:8px 12px;font-size:13.5px;margin:10px 0 0}
+.tg{margin-top:14px}
+.tg h4{margin:0 0 8px;font-size:14px}
+.tg h4 small{font-weight:400;color:var(--mid);margin-left:6px}
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.term{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px}
+.term b{display:block}
+.term span{color:var(--mid);font-size:13px}
+.term.care{border-color:#e9c3cf;background:#fdf6f8}
+.term.care b:after{content:"care";margin-left:6px;font-size:10.5px;font-weight:600;color:var(--new);background:var(--newbg);padding:2px 6px;border-radius:99px;vertical-align:1px}
+.tools{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.tools input{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font:inherit}
+.tools button{padding:9px 14px;border:1px solid var(--line);background:#fff;border-radius:8px;font:inherit;cursor:pointer}
+.tools button:hover{background:var(--soft)}
+.hide{display:none!important}
+@media (max-width:640px){
+  .cols.two{grid-template-columns:1fr}
+  header.top h1{font-size:26px}
+  ol.steps{grid-template-columns:1fr 1fr}
+  .key dl{grid-template-columns:1fr}.key dt{margin-top:4px}
+  .tab{padding:4px 12px 14px}
+  td:first-child{white-space:normal}
+}
+@media print{nav.bar,.tools{display:none}details.topic>*{display:block}.tab,.flow,details.topic{break-inside:avoid}}
+
+/* ---- one line per row ---- */
+.ds{display:block;color:var(--mid);font-size:14px;margin:0}
+.c{cursor:auto}
+.cols,.cols.two{display:block;margin-top:14px}
+.cols .col{margin-bottom:12px;padding:12px 16px 6px}
+.cols h4{font-size:14px;display:flex;align-items:center;gap:8px;margin:0 0 6px}
+.cols h4 .num{font-weight:600;font-size:11.5px;color:var(--mid);background:var(--soft);border:1px solid var(--line);border-radius:99px;padding:1px 7px}
+.entry{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:18px;align-items:baseline;padding:9px 0;border-top:1px solid var(--line)}
+.entry:first-of-type{border-top:0}
+.entry>.sub{grid-column:1/-1}
+.sub{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:18px;align-items:baseline;margin-top:4px;padding:3px 0 3px 12px;border-left:3px solid var(--line)}
+.sub>.sub{grid-column:1/-1}
+.sub .nm{font-weight:500;font-size:14.5px}
+.sub .ds{font-size:13.5px}
+.arr{color:var(--mid);margin-right:6px}
+.rel{margin-right:6px}
+.tab{padding:6px 18px 12px}
+.tab>p{margin-bottom:10px}
+.main{padding:10px 14px}
+.main .mlabel{margin-bottom:2px}
+ol.steps li{padding:10px 12px}
+ol.steps li:before{margin-bottom:4px}
+.cards{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.card{padding:10px 12px}
+.card .row{margin-bottom:2px}
+.flow{padding:12px 14px}
+.flow h4{font-size:15px;margin-bottom:2px}
+.flow .ds{margin:0 0 8px}
+.terms{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.term{padding:7px 10px}
+@media (max-width:640px){.entry,.sub{grid-template-columns:1fr}.entry>.ds,.sub>.ds{margin-top:2px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+<h1>Astro App: product structure</h1>
+<p>Part 1 lists every screen. Part 2 lists every astrology term.</p>
+</header>
+
+<nav class="bar" aria-label="Sections">
+<a href="#firstrun">First run</a><a href="#tabs">Tabs</a><a href="#outside">Outside</a><a href="#shared">Shared</a><a href="#flows">Flows</a><a href="#links">Links</a><span class="sep"></span><a href="#terms">Terms</a>
+</nav>
+
+<div class="key">
+<dl>
+<dt><span class="pill m">Must</span> <span class="pill s">Should</span> <span class="pill c">Could</span></dt><dd>How important it is for launch.</dd>
+<dt><span class="pill paid">Paid</span> <span class="pill x">Not in plan</span></dt><dd>Behind the subscription · in the design but not in the feature list.</dd>
+<dt><b>On this screen</b> · <b>Opens</b></dt><dd>Part of the main screen · a separate screen reached from it.</dd>
+</dl>
+</div>
+
+<h2 class="part" id="p1">Part 1: Screens</h2>
+
+<section id="firstrun">
+<h3>First run <small>shown once, 9 steps</small></h3>
+<ol class="steps">
+<li class="c"><b>Welcome</b><div class="ds">What the app does, in one line</div></li>
+<li class="c"><b>Gender</b><div class="ds">Asked once during setup</div></li>
+<li class="c"><b>Birth date</b><div class="ds">Required</div></li>
+<li class="c"><b>Birth time</b><div class="ds">Or “I don’t know”: a time range is used and results are labelled “likely”</div></li>
+<li class="c"><b>Birth place</b><div class="ds">Needed for the rising sign and timings</div></li>
+<li class="c"><b>Chart reveal</b><div class="ds">First look at “You at a glance”</div></li>
+<li class="c"><b>Notifications</b><div class="ds">Choose time and topics before any are sent</div></li>
+<li class="c"><b>Sign in (optional)</b><div class="ds">Gentle, skippable</div></li>
+<li class="c"><b>Paywall</b><div class="ds">Closable, with the welcome offer; then Today</div></li>
+</ol>
+</section>
+
+<section id="tabs">
+<h3>The five tabs</h3>
+<div class="tab" id="tab-today">
+<h3>Today</h3>
+<p>The daily reading, opened every morning.</p>
+<div class="main c"><div class="mlabel">Main screen</div><div class="row"><span class="nm">Reading as a page</span><span class="pill m">Must</span></div><div class="ds">Headline, reading, audio, affirmation</div></div>
+<div class="cols two"><div class="col"><h4>On this screen <span class="num">3</span></h4><div class="entry c"><div class="row"><span class="nm">Audio player</span><span class="pill m">Must</span></div><div class="ds">Read-aloud, about 1:20; mini-player keeps playing</div></div><div class="entry c"><div class="row"><span class="nm">Domain sections</span><span class="pill m">Must</span></div><div class="ds">Career · Love · Health · Money, scroll or jump</div></div><div class="entry c"><div class="row"><span class="nm">Affirmation</span><span class="pill m">Must</span></div><div class="ds">Same text as the home screen widget</div></div></div><div class="col"><h4>Opens <span class="num">4</span></h4><div class="entry c"><div class="row"><span class="nm">Energy streak</span><span class="pill m">Must</span></div><div class="ds">Stage, day count, next stage</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Shareable energy card</span><span class="pill c">Could</span></div><div class="ds">Streak stage only, no birth details</div></div></div><div class="entry c"><div class="row"><span class="nm">Tomorrow’s preview</span><span class="pill m">Must</span></div><div class="ds">Theme only, appears about 9 pm</div></div><div class="entry c"><div class="row"><span class="nm">Life phase card</span><span class="pill m">Must</span></div><div class="ds">Current period and end date; opens the Dasha timeline in Chart</div></div><div class="entry c"><div class="row"><span class="nm">Week’s overview</span><span class="pill c">Could</span><span class="pill paid">Paid</span></div><div class="ds">The coming week’s themes</div></div></div></div>
+</div>
+<div class="tab" id="tab-panchang">
+<h3>Panchang</h3>
+<p>One day card, flip for detail.</p>
+<div class="main c"><div class="mlabel">Main screen</div><div class="row"><span class="nm">Day card</span><span class="pill m">Must</span></div><div class="ds">Today’s Panchang; flip the card for the detail</div></div>
+<div class="cols two"><div class="col"><h4>On this screen <span class="num">5</span></h4><div class="entry c"><div class="row"><span class="nm">Front</span><span class="pill m">Must</span></div><div class="ds">Today is [Tithi], one-line mood, good windows</div></div><div class="entry c"><div class="row"><span class="nm">Back</span><span class="pill m">Must</span></div><div class="ds">Five limbs, sunrise and sunset, Good/Avoid windows</div></div><div class="entry c"><div class="row"><span class="nm">Day navigation</span><span class="pill m">Must</span></div><div class="ds">‹ previous day · next day ›</div></div><div class="entry c"><div class="row"><span class="nm">Saved days (bookmark)</span><span class="pill x">Not in plan</span></div><div class="ds">Bottom bar has a bookmark icon</div></div><div class="entry c"><div class="row"><span class="nm">Share Panchang</span><span class="pill x">Not in plan</span></div><div class="ds">Bottom bar has a share icon</div></div></div><div class="col"><h4>Opens <span class="num">3</span></h4><div class="entry c"><div class="row"><span class="nm">Limb meaning card</span><span class="pill m">Must</span></div><div class="ds">Bottom sheet from any underlined term</div></div><div class="entry c"><div class="row"><span class="nm">Moon transit detail</span><span class="pill m">Must</span></div><div class="ds">Sign or Nakshatra change time and what it means for you</div></div><div class="entry c"><div class="row"><span class="nm">Location</span><span class="pill x">Not in plan</span></div><div class="ds">City sets sunrise-based timings</div></div></div></div>
+</div>
+<div class="tab" id="tab-chart">
+<h3>Chart</h3>
+<p>Your birth chart and what it means.</p>
+<div class="main c"><div class="mlabel">Main screen</div><div class="row"><span class="nm">You at a glance</span><span class="pill m">Must</span></div><div class="ds">Moon sign, birth star, rising sign, key placements</div></div>
+<div class="cols two"><div class="col"><h4>On this screen <span class="num">1</span></h4><div class="entry c"><div class="row"><span class="nm">Birth chart</span><span class="pill m">Must</span></div><div class="ds">North Indian diamond grid</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">South Indian style</span><span class="pill s">Should</span></div><div class="ds">Toggle on the same screen</div></div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Export as PDF or image</span><span class="pill c">Could</span></div></div></div></div><div class="col"><h4>Opens <span class="num">6</span></h4><div class="entry c"><div class="row"><span class="nm">Life phase (Dasha)</span><span class="pill m">Must</span></div><div class="ds">Current period, what it is about, when it ends</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Full Dasha timeline</span><span class="pill s">Should</span><span class="pill paid">Paid</span></div><div class="ds">Past and future periods</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Antardasha detail</span><span class="pill c">Could</span><span class="pill paid">Paid</span></div><div class="ds">Sub-period within the current one</div></div></div></div><div class="entry c"><div class="row"><span class="nm">Gochar (transits)</span><span class="pill s">Should</span><span class="pill paid">Paid</span></div><div class="ds">Planets now, relative to your chart</div></div><div class="entry c"><div class="row"><span class="nm">Planet profiles</span><span class="pill s">Should</span><span class="pill paid">Paid</span></div><div class="ds">“Your Saturn”, “Your Venus”</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Planet detail</span><span class="pill s">Should</span></div><div class="ds">Placement, house, plain meaning</div></div></div><div class="entry c"><div class="row"><span class="nm">Life-domain view</span><span class="pill s">Should</span><span class="pill paid">Paid</span></div><div class="ds">Career, love, health with planets behind each</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Domain detail</span><span class="pill s">Should</span></div><div class="ds">Which planets, why</div></div></div><div class="entry c"><div class="row"><span class="nm">Nakshatra deep dive</span><span class="pill c">Could</span><span class="pill paid">Paid</span></div><div class="ds">Traits, strengths, Dasha link</div></div><div class="entry c"><div class="row"><span class="nm">Kundli report</span><span class="pill c">Could</span><span class="pill paid">Paid</span></div><div class="ds">Full paid report, downloadable</div></div></div></div>
+</div>
+<div class="tab" id="tab-people">
+<h3>People</h3>
+<p>Family and friends.</p>
+<div class="main c"><div class="mlabel">Main screen</div><div class="row"><span class="nm">People list</span><span class="pill s">Should</span></div><div class="ds">Free limit to be decided</div></div>
+<div class="cols"><div class="col"><h4>Opens <span class="num">3</span></h4><div class="entry c"><div class="row"><span class="nm">Add person</span><span class="pill s">Should</span></div><div class="ds">Birth details form, same as first run</div></div><div class="entry c"><div class="row"><span class="nm">Person profile</span><span class="pill s">Should</span></div><div class="ds">Connection headline free, details paid</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="rel">On screen</span><span class="nm">Connection headline</span><span class="pill s">Should</span></div><div class="ds">One line</div></div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="rel">On screen</span><span class="nm">Full details</span><span class="pill s">Should</span><span class="pill paid">Paid</span></div></div></div><div class="entry c"><div class="row"><span class="nm">Match the Energies</span><span class="pill s">Should</span><span class="pill paid">Paid</span></div><div class="ds">“Guna Milan” in the subtext</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Match result</span><span class="pill s">Should</span></div><div class="ds">Care-handled wording, no fear framing</div></div></div></div></div>
+</div>
+<div class="tab" id="tab-me">
+<h3>Me</h3>
+<p>Settings and account.</p>
+<div class="main c"><div class="mlabel">Main screen</div><div class="row"><span class="nm">Settings</span><span class="pill m">Must</span></div><div class="ds">Everything you can change</div></div>
+<div class="cols"><div class="col"><h4>Opens <span class="num">6</span></h4><div class="entry c"><div class="row"><span class="nm">Birth details</span><span class="pill m">Must</span></div><div class="ds">Gender, date, time and place; view and correct</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Edit with warning</span><span class="pill m">Must</span></div><div class="ds">Chart and readings will change</div></div></div><div class="entry c"><div class="row"><span class="nm">Notifications</span><span class="pill m">Must</span></div><div class="ds">Time, topics, Moon alert level, preview time</div></div><div class="entry c"><div class="row"><span class="nm">Look &amp; accessibility</span><span class="pill m">Must</span></div><div class="ds">Large text, dark mode, screen reader</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="rel">On screen</span><span class="nm">Large text</span><span class="pill m">Must</span></div><div class="ds">Scales across the whole app</div></div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="rel">On screen</span><span class="nm">Dark mode · screen reader</span><span class="pill s">Should</span></div></div></div><div class="entry c"><div class="row"><span class="nm">Data &amp; offline</span><span class="pill m">Must</span></div><div class="ds">Low-data mode, what is saved offline</div></div><div class="entry c"><div class="row"><span class="nm">Subscription</span><span class="pill m">Must</span></div><div class="ds">Plan, welcome offer, manage</div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Paywall</span><span class="pill m">Must</span></div><div class="ds">Always closable; opens from any paid item</div></div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Gift a subscription</span><span class="pill c">Could</span></div></div><div class="sub c"><div class="srow"><span class="arr">↳</span><span class="nm">Referral rewards</span><span class="pill c">Could</span></div></div></div><div class="entry c"><div class="row"><span class="nm">Account</span><span class="pill m">Must</span></div><div class="ds">Optional sign-in, sync, sign out</div></div></div></div>
+</div>
+</section>
+
+<section id="outside">
+<h3>Outside the app</h3>
+<div class="cards">
+<div class="card c"><div class="row"><span class="nm">Home screen widget</span><span class="pill m">Must</span></div><div class="ds">Affirmation and streak stage; opens Today</div></div>
+<div class="card c"><div class="row"><span class="nm">Tomorrow’s preview notification</span><span class="pill m">Must</span></div><div class="ds">Night-time theme hint; opens Today › Tomorrow’s preview</div></div>
+<div class="card c"><div class="row"><span class="nm">Moon transit alert</span><span class="pill m">Must</span></div><div class="ds">Sign or Nakshatra change; opens Panchang › Moon transit detail</div></div>
+</div>
+</section>
+
+<section id="shared">
+<h3>Shared things <small>used on many screens</small></h3>
+<div class="cards">
+<div class="card c"><div class="row"><span class="nm">Term meaning card</span><span class="pill m">Must</span></div><div class="ds">A bottom sheet from any underlined word, with “See it in my chart”. Used on Today, Panchang, Chart and People.</div></div>
+<div class="card c"><div class="row"><span class="nm">Paywall sheet</span><span class="pill m">Must</span></div><div class="ds">Opens from any paid item. Always closable, returns to the item. One plan, welcome offer for new users.</div></div>
+<div class="card c"><div class="row"><span class="nm">Audio mini-player</span><span class="pill m">Must</span></div><div class="ds">Starts on Today, persists across tabs, can be paused anywhere.</div></div>
+<div class="card c"><div class="row"><span class="nm">“Likely” labels</span><span class="pill m">Must</span></div><div class="ds">When birth time is unknown, time-dependent results carry a “likely” tag. Editing birth details clears it.</div></div>
+<div class="card c"><div class="row"><span class="nm">Offline &amp; low-data state</span><span class="pill m">Must</span></div><div class="ds">Chart and last daily message stay readable. A quiet banner shows when content is cached.</div></div>
+</div>
+</section>
+
+<section id="flows">
+<h3>Key flows</h3>
+<div class="flow c"><h4>First run to first reading</h4><div class="ds">Gets a new user to a real reading in under two minutes.</div><div class="chain"><span>Welcome</span><span>Gender</span><span>Birth date</span><span>Birth time</span><span>Birth place</span><span>Chart reveal</span><span>Notifications</span><span>Sign in, skippable</span><span class="pw">Paywall, closable (paywall)</span><span>Today</span></div></div>
+<div class="flow c"><h4>The daily loop</h4><div class="ds">The habit the first-week return metric measures.</div><div class="chain"><span>Notification or widget</span><span>Today</span><span>Listen or read</span><span>Panchang</span><span>Streak updates</span></div></div>
+<div class="flow c"><h4>Learn as you read</h4><div class="ds">Every unfamiliar term becomes a short lesson.</div><div class="chain"><span>Underlined term</span><span>Meaning card</span><span>See it in my chart</span><span>Chart</span></div></div>
+<div class="flow c"><h4>Upgrade</h4><div class="ds">Triggered by curiosity, never a hard wall.</div><div class="chain"><span>Tap a paid item</span><span class="pw">Paywall sheet (paywall)</span><span>Close or subscribe</span><span>Back to the item</span></div></div>
+<div class="flow c"><h4>Add someone and match</h4><div class="ds">Free headline first, depth behind the paywall.</div><div class="chain"><span>People</span><span>Add person</span><span>Connection headline, free</span><span class="pw">Full details (paywall)</span><span>Match the Energies</span></div></div>
+</section>
+
+<section id="links">
+<h3>Where outside entry points land</h3>
+<table>
+<thead><tr><th>Entry point</th><th>Lands on</th><th>If offline</th></tr></thead>
+<tbody>
+<tr><td>Home screen widget</td><td>Today</td><td>Shows the last affirmation</td></tr>
+<tr><td>Tomorrow’s preview notification</td><td>Today › Tomorrow’s preview</td><td>Shows the cached preview</td></tr>
+<tr><td>Moon transit alert</td><td>Panchang › Moon transit detail</td><td>Shows the cached day card</td></tr>
+<tr><td>Tap on an underlined term (anywhere)</td><td>Term meaning card, then Chart</td><td>Cards are bundled and work offline</td></tr>
+<tr><td>Paid item tapped by a free user</td><td>Paywall sheet, then back to the item</td><td>Paywall needs a connection; the item stays locked</td></tr>
+</tbody>
+</table>
+</section>
+
+<h2 class="part" id="terms">Part 2: Terms</h2>
+<p class="lead">193 astrology terms in 11 topics. Each term becomes one short card in the app. Terms with a <span class="pill x">care</span> tag are traditionally read as difficult, so their wording is kept gentle.</p>
+<div class="tools">
+<input id="q" type="search" placeholder="Search terms, for example Rohini" aria-label="Search terms">
+<button id="open" type="button">Open all</button>
+<button id="close" type="button">Close all</button>
+</div>
+
+<div id="topics">
+<details class="topic">
+<summary><span class="tn"><b>1. Foundations</b><span class="ds">The ideas everything else rests on</span></span><span class="tc">10</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+
+<div class="tg"><div class="terms"><div class="term c" data-s="jyotish vedic astrology, the “science of light”"><b>Jyotish</b><div class="ds">Vedic astrology, the “science of light”</div></div><div class="term c" data-s="kundli your birth chart, also called janma patrika"><b>Kundli</b><div class="ds">Your birth chart, also called Janma Patrika</div></div><div class="term c" data-s="sidereal zodiac the zodiac measured against the fixed stars"><b>Sidereal zodiac</b><div class="ds">The zodiac measured against the fixed stars</div></div><div class="term c" data-s="ayanamsa the gap between the vedic and western zodiac, about 24°"><b>Ayanamsa</b><div class="ds">The gap between the Vedic and Western zodiac, about 24°</div></div><div class="term c" data-s="graha a planet or influence in the chart"><b>Graha</b><div class="ds">A planet or influence in the chart</div></div><div class="term c" data-s="rashi a zodiac sign"><b>Rashi</b><div class="ds">A zodiac sign</div></div><div class="term c" data-s="bhava a house, one of 12 life areas"><b>Bhava</b><div class="ds">A house, one of 12 life areas</div></div><div class="term c" data-s="nakshatra one of 27 lunar mansions, or “birth stars”"><b>Nakshatra</b><div class="ds">One of 27 lunar mansions, or “birth stars”</div></div><div class="term c" data-s="lagna the rising sign at your birth"><b>Lagna</b><div class="ds">The rising sign at your birth</div></div><div class="term c" data-s="birth time needed for the rising sign and houses"><b>Birth time</b><div class="ds">Needed for the rising sign and houses</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>2. Your core placements</b><span class="ds">What “You at a glance” shows</span></span><span class="tc">5</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+
+<div class="tg"><div class="terms"><div class="term c" data-s="chandra rashi moon sign, the centre of vedic readings"><b>Chandra Rashi</b><div class="ds">Moon sign, the centre of Vedic readings</div></div><div class="term c" data-s="janma nakshatra birth star, the moon’s star at your birth"><b>Janma Nakshatra</b><div class="ds">Birth star, the Moon’s star at your birth</div></div><div class="term c" data-s="lagna rising sign"><b>Lagna</b><div class="ds">Rising sign</div></div><div class="term c" data-s="surya rashi sun sign, the one in newspapers"><b>Surya Rashi</b><div class="ds">Sun sign, the one in newspapers</div></div><div class="term c" data-s="key placements the few placements that matter most for you"><b>Key placements</b><div class="ds">The few placements that matter most for you</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>3. The 12 signs (Rashis)</b><span class="ds">Each with element, ruler and a plain trait line</span></span><span class="tc">12</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+
+<div class="tg"><div class="terms"><div class="term c" data-s="mesha aries"><b>Mesha</b><div class="ds">Aries</div></div><div class="term c" data-s="vrishabha taurus"><b>Vrishabha</b><div class="ds">Taurus</div></div><div class="term c" data-s="mithuna gemini"><b>Mithuna</b><div class="ds">Gemini</div></div><div class="term c" data-s="karka cancer"><b>Karka</b><div class="ds">Cancer</div></div><div class="term c" data-s="simha leo"><b>Simha</b><div class="ds">Leo</div></div><div class="term c" data-s="kanya virgo"><b>Kanya</b><div class="ds">Virgo</div></div><div class="term c" data-s="tula libra"><b>Tula</b><div class="ds">Libra</div></div><div class="term c" data-s="vrishchika scorpio"><b>Vrishchika</b><div class="ds">Scorpio</div></div><div class="term c" data-s="dhanu sagittarius"><b>Dhanu</b><div class="ds">Sagittarius</div></div><div class="term c" data-s="makara capricorn"><b>Makara</b><div class="ds">Capricorn</div></div><div class="term c" data-s="kumbha aquarius"><b>Kumbha</b><div class="ds">Aquarius</div></div><div class="term c" data-s="meena pisces"><b>Meena</b><div class="ds">Pisces</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>4. The 9 planets (Grahas)</b><span class="ds">What each stands for, in plain words</span></span><span class="tc">9</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+
+<div class="tg"><div class="terms"><div class="term c" data-s="surya sun: vitality, self"><b>Surya</b><div class="ds">Sun: vitality, self</div></div><div class="term c" data-s="chandra moon: mind, emotions"><b>Chandra</b><div class="ds">Moon: mind, emotions</div></div><div class="term c" data-s="mangal mars: energy, drive"><b>Mangal</b><div class="ds">Mars: energy, drive</div></div><div class="term c" data-s="budha mercury: speech, learning"><b>Budha</b><div class="ds">Mercury: speech, learning</div></div><div class="term c" data-s="guru jupiter: wisdom, growth"><b>Guru</b><div class="ds">Jupiter: wisdom, growth</div></div><div class="term c" data-s="shukra venus: love, comfort"><b>Shukra</b><div class="ds">Venus: love, comfort</div></div><div class="term c" data-s="shani saturn: discipline, time"><b>Shani</b><div class="ds">Saturn: discipline, time</div></div><div class="term c" data-s="rahu north node: ambition, hunger"><b>Rahu</b><div class="ds">North node: ambition, hunger</div></div><div class="term c" data-s="ketu south node: detachment"><b>Ketu</b><div class="ds">South node: detachment</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>5. The 12 houses (Bhavas)</b><span class="ds">The life area each house covers</span></span><span class="tc">15</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+
+<div class="tg"><div class="terms"><div class="term c" data-s="1st · tanu self and body"><b>1st · Tanu</b><div class="ds">Self and body</div></div><div class="term c" data-s="2nd · dhana money and family"><b>2nd · Dhana</b><div class="ds">Money and family</div></div><div class="term c" data-s="3rd · sahaja effort and siblings"><b>3rd · Sahaja</b><div class="ds">Effort and siblings</div></div><div class="term c" data-s="4th · sukha home and peace"><b>4th · Sukha</b><div class="ds">Home and peace</div></div><div class="term c" data-s="5th · putra creativity and children"><b>5th · Putra</b><div class="ds">Creativity and children</div></div><div class="term c" data-s="6th work, service, health"><b>6th</b><div class="ds">Work, service, health</div></div><div class="term c" data-s="7th · kalatra partnerships"><b>7th · Kalatra</b><div class="ds">Partnerships</div></div><div class="term c care" data-s="8th · ayu change and depth"><b>8th · Ayu</b><div class="ds">Change and depth</div></div><div class="term c" data-s="9th · bhagya luck and purpose"><b>9th · Bhagya</b><div class="ds">Luck and purpose</div></div><div class="term c" data-s="10th · karma career and status"><b>10th · Karma</b><div class="ds">Career and status</div></div><div class="term c" data-s="11th · labha gains and friends"><b>11th · Labha</b><div class="ds">Gains and friends</div></div><div class="term c care" data-s="12th · vyaya rest and letting go"><b>12th · Vyaya</b><div class="ds">Rest and letting go</div></div></div></div>
+<div class="tg"><h4>House groups<span class="pill c">Could</span></h4><div class="terms"><div class="term c" data-s="kendra corner houses (1, 4, 7, 10): the pillars"><b>Kendra</b><div class="ds">Corner houses (1, 4, 7, 10): the pillars</div></div><div class="term c" data-s="trikona trine houses (1, 5, 9): fortune"><b>Trikona</b><div class="ds">Trine houses (1, 5, 9): fortune</div></div><div class="term c" data-s="house lord the planet that rules a house"><b>House lord</b><div class="ds">The planet that rules a house</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>6. The 27 Nakshatras</b><span class="ds">Grouped by the planet that starts your Dasha</span></span><span class="tc">28</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+<p class="note">Each Nakshatra has a ruling planet that sets the first Dasha at birth. Grouping by ruler also shows the pattern. Each Nakshatra also has four quarters, called Padas.</p>
+<div class="tg"><h4>Ketu</h4><div class="terms"><div class="term c" data-s="ashwini horse riders"><b>Ashwini</b><div class="ds">Horse riders</div></div><div class="term c" data-s="magha the great"><b>Magha</b><div class="ds">The great</div></div><div class="term c" data-s="mula the root"><b>Mula</b><div class="ds">The root</div></div></div></div>
+<div class="tg"><h4>Shukra (Venus)</h4><div class="terms"><div class="term c" data-s="bharani the bearer"><b>Bharani</b><div class="ds">The bearer</div></div><div class="term c" data-s="purva phalguni former fruit"><b>Purva Phalguni</b><div class="ds">Former fruit</div></div><div class="term c" data-s="purva ashadha early invincible"><b>Purva Ashadha</b><div class="ds">Early invincible</div></div></div></div>
+<div class="tg"><h4>Surya (Sun)</h4><div class="terms"><div class="term c" data-s="krittika the cutter"><b>Krittika</b><div class="ds">The cutter</div></div><div class="term c" data-s="uttara phalguni latter fruit"><b>Uttara Phalguni</b><div class="ds">Latter fruit</div></div><div class="term c" data-s="uttara ashadha later invincible"><b>Uttara Ashadha</b><div class="ds">Later invincible</div></div></div></div>
+<div class="tg"><h4>Chandra (Moon)</h4><div class="terms"><div class="term c" data-s="rohini the red one"><b>Rohini</b><div class="ds">The red one</div></div><div class="term c" data-s="hasta the hand"><b>Hasta</b><div class="ds">The hand</div></div><div class="term c" data-s="shravana hearing"><b>Shravana</b><div class="ds">Hearing</div></div></div></div>
+<div class="tg"><h4>Mangal (Mars)</h4><div class="terms"><div class="term c" data-s="mrigashira deer’s head"><b>Mrigashira</b><div class="ds">Deer’s head</div></div><div class="term c" data-s="chitra the bright"><b>Chitra</b><div class="ds">The bright</div></div><div class="term c" data-s="dhanishta the richest"><b>Dhanishta</b><div class="ds">The richest</div></div></div></div>
+<div class="tg"><h4>Rahu</h4><div class="terms"><div class="term c" data-s="ardra the moist one"><b>Ardra</b><div class="ds">The moist one</div></div><div class="term c" data-s="swati the independent"><b>Swati</b><div class="ds">The independent</div></div><div class="term c" data-s="shatabhisha hundred healers"><b>Shatabhisha</b><div class="ds">Hundred healers</div></div></div></div>
+<div class="tg"><h4>Guru (Jupiter)</h4><div class="terms"><div class="term c" data-s="punarvasu return of light"><b>Punarvasu</b><div class="ds">Return of light</div></div><div class="term c" data-s="vishakha the forked"><b>Vishakha</b><div class="ds">The forked</div></div><div class="term c" data-s="purva bhadrapada former blessed feet"><b>Purva Bhadrapada</b><div class="ds">Former blessed feet</div></div></div></div>
+<div class="tg"><h4>Shani (Saturn)</h4><div class="terms"><div class="term c" data-s="pushya the nourisher"><b>Pushya</b><div class="ds">The nourisher</div></div><div class="term c" data-s="anuradha devotion"><b>Anuradha</b><div class="ds">Devotion</div></div><div class="term c" data-s="uttara bhadrapada latter blessed feet"><b>Uttara Bhadrapada</b><div class="ds">Latter blessed feet</div></div></div></div>
+<div class="tg"><h4>Budha (Mercury)</h4><div class="terms"><div class="term c" data-s="ashlesha the clinger"><b>Ashlesha</b><div class="ds">The clinger</div></div><div class="term c" data-s="jyeshtha the eldest"><b>Jyeshtha</b><div class="ds">The eldest</div></div><div class="term c" data-s="revati the wealthy"><b>Revati</b><div class="ds">The wealthy</div></div></div></div>
+<div class="tg"><h4>Related terms</h4><div class="terms"><div class="term c" data-s="pada one quarter of a nakshatra"><b>Pada</b><div class="ds">One quarter of a Nakshatra</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>7. Life phases (Dasha)</b><span class="ds">The planetary periods behind the Life phase card</span></span><span class="tc">15</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+
+<div class="tg"><h4>Concepts</h4><div class="terms"><div class="term c" data-s="dasha a planetary period, shown as a “life phase”"><b>Dasha</b><div class="ds">A planetary period, shown as a “life phase”</div></div><div class="term c" data-s="mahadasha the main period"><b>Mahadasha</b><div class="ds">The main period</div></div><div class="term c" data-s="vimshottari the 120-year cycle used here"><b>Vimshottari</b><div class="ds">The 120-year cycle used here</div></div><div class="term c" data-s="dasha lord the planet running the current period"><b>Dasha lord</b><div class="ds">The planet running the current period</div></div></div></div>
+<div class="tg"><h4>Period lengths</h4><div class="terms"><div class="term c" data-s="ketu · 7 yrs letting go, inner focus"><b>Ketu · 7 yrs</b><div class="ds">Letting go, inner focus</div></div><div class="term c" data-s="shukra · 20 yrs relationships, comfort"><b>Shukra · 20 yrs</b><div class="ds">Relationships, comfort</div></div><div class="term c" data-s="surya · 6 yrs identity, leadership"><b>Surya · 6 yrs</b><div class="ds">Identity, leadership</div></div><div class="term c" data-s="chandra · 10 yrs emotions, home"><b>Chandra · 10 yrs</b><div class="ds">Emotions, home</div></div><div class="term c" data-s="mangal · 7 yrs drive, action"><b>Mangal · 7 yrs</b><div class="ds">Drive, action</div></div><div class="term c" data-s="rahu · 18 yrs ambition, change"><b>Rahu · 18 yrs</b><div class="ds">Ambition, change</div></div><div class="term c" data-s="guru · 16 yrs growth, learning"><b>Guru · 16 yrs</b><div class="ds">Growth, learning</div></div><div class="term c" data-s="shani · 19 yrs discipline, patience"><b>Shani · 19 yrs</b><div class="ds">Discipline, patience</div></div><div class="term c" data-s="budha · 17 yrs communication, skill"><b>Budha · 17 yrs</b><div class="ds">Communication, skill</div></div></div></div>
+<div class="tg"><h4>Depth<span class="pill c">Could</span></h4><div class="terms"><div class="term c" data-s="antardasha a sub-period inside a main period"><b>Antardasha</b><div class="ds">A sub-period inside a main period</div></div><div class="term c" data-s="dasha balance how much of the first period remained at birth"><b>Dasha balance</b><div class="ds">How much of the first period remained at birth</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>8. Panchang (the daily calendar)</b><span class="ds">The five limbs and the day’s windows</span></span><span class="tc">74</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+
+<div class="tg"><h4>The five limbs</h4><div class="terms"><div class="term c" data-s="panchang the five limbs of the day"><b>Panchang</b><div class="ds">The five limbs of the day</div></div><div class="term c" data-s="tithi lunar day, 30 in a month"><b>Tithi</b><div class="ds">Lunar day, 30 in a month</div></div><div class="term c" data-s="vara weekday"><b>Vara</b><div class="ds">Weekday</div></div><div class="term c" data-s="nakshatra the moon’s star today"><b>Nakshatra</b><div class="ds">The Moon’s star today</div></div><div class="term c" data-s="yoga a sun and moon combination"><b>Yoga</b><div class="ds">A Sun and Moon combination</div></div><div class="term c" data-s="karana half a tithi"><b>Karana</b><div class="ds">Half a Tithi</div></div></div></div>
+<div class="tg"><h4>Tithi<small>15 names, repeated in each half of the month</small></h4><div class="terms"><div class="term c" data-s="pratipada 1st day"><b>Pratipada</b><div class="ds">1st day</div></div><div class="term c" data-s="dwitiya 2nd day"><b>Dwitiya</b><div class="ds">2nd day</div></div><div class="term c" data-s="tritiya 3rd day"><b>Tritiya</b><div class="ds">3rd day</div></div><div class="term c" data-s="chaturthi 4th day"><b>Chaturthi</b><div class="ds">4th day</div></div><div class="term c" data-s="panchami 5th day"><b>Panchami</b><div class="ds">5th day</div></div><div class="term c" data-s="shashthi 6th day"><b>Shashthi</b><div class="ds">6th day</div></div><div class="term c" data-s="saptami 7th day"><b>Saptami</b><div class="ds">7th day</div></div><div class="term c" data-s="ashtami 8th day"><b>Ashtami</b><div class="ds">8th day</div></div><div class="term c" data-s="navami 9th day"><b>Navami</b><div class="ds">9th day</div></div><div class="term c" data-s="dashami 10th day"><b>Dashami</b><div class="ds">10th day</div></div><div class="term c" data-s="ekadashi 11th day, a fasting day"><b>Ekadashi</b><div class="ds">11th day, a fasting day</div></div><div class="term c" data-s="dwadashi 12th day"><b>Dwadashi</b><div class="ds">12th day</div></div><div class="term c" data-s="trayodashi 13th day"><b>Trayodashi</b><div class="ds">13th day</div></div><div class="term c" data-s="chaturdashi 14th day"><b>Chaturdashi</b><div class="ds">14th day</div></div><div class="term c" data-s="purnima / amavasya full moon / new moon"><b>Purnima / Amavasya</b><div class="ds">Full moon / new moon</div></div></div></div>
+<div class="tg"><h4>Paksha</h4><div class="terms"><div class="term c" data-s="shukla paksha the growing moon half"><b>Shukla Paksha</b><div class="ds">The growing Moon half</div></div><div class="term c" data-s="krishna paksha the fading moon half"><b>Krishna Paksha</b><div class="ds">The fading Moon half</div></div></div></div>
+<div class="tg"><h4>Vara (weekdays)</h4><div class="terms"><div class="term c" data-s="ravivara sunday · sun"><b>Ravivara</b><div class="ds">Sunday · Sun</div></div><div class="term c" data-s="somavara monday · moon"><b>Somavara</b><div class="ds">Monday · Moon</div></div><div class="term c" data-s="mangalavara tuesday · mars"><b>Mangalavara</b><div class="ds">Tuesday · Mars</div></div><div class="term c" data-s="budhavara wednesday · mercury"><b>Budhavara</b><div class="ds">Wednesday · Mercury</div></div><div class="term c" data-s="guruvara thursday · jupiter"><b>Guruvara</b><div class="ds">Thursday · Jupiter</div></div><div class="term c" data-s="shukravara friday · venus"><b>Shukravara</b><div class="ds">Friday · Venus</div></div><div class="term c" data-s="shanivara saturday · saturn"><b>Shanivara</b><div class="ds">Saturday · Saturn</div></div></div></div>
+<div class="tg"><h4>Yoga<small>27 names. Nine are traditionally read as difficult</small></h4><div class="terms"><div class="term c care" data-s="vishkambha a pillar, or an obstacle"><b>Vishkambha</b><div class="ds">A pillar, or an obstacle</div></div><div class="term c" data-s="priti affection"><b>Priti</b><div class="ds">Affection</div></div><div class="term c" data-s="ayushman long life"><b>Ayushman</b><div class="ds">Long life</div></div><div class="term c" data-s="saubhagya good fortune"><b>Saubhagya</b><div class="ds">Good fortune</div></div><div class="term c" data-s="shobhana splendour"><b>Shobhana</b><div class="ds">Splendour</div></div><div class="term c care" data-s="atiganda obstacles"><b>Atiganda</b><div class="ds">Obstacles</div></div><div class="term c" data-s="sukarma good action"><b>Sukarma</b><div class="ds">Good action</div></div><div class="term c" data-s="dhriti steadiness"><b>Dhriti</b><div class="ds">Steadiness</div></div><div class="term c care" data-s="shula a sharp edge"><b>Shula</b><div class="ds">A sharp edge</div></div><div class="term c care" data-s="ganda a knot"><b>Ganda</b><div class="ds">A knot</div></div><div class="term c" data-s="vriddhi growth"><b>Vriddhi</b><div class="ds">Growth</div></div><div class="term c" data-s="dhruva fixed, lasting"><b>Dhruva</b><div class="ds">Fixed, lasting</div></div><div class="term c care" data-s="vyaghata striking"><b>Vyaghata</b><div class="ds">Striking</div></div><div class="term c" data-s="harshana joy"><b>Harshana</b><div class="ds">Joy</div></div><div class="term c care" data-s="vajra thunderbolt"><b>Vajra</b><div class="ds">Thunderbolt</div></div><div class="term c" data-s="siddhi things come together"><b>Siddhi</b><div class="ds">Things come together</div></div><div class="term c care" data-s="vyatipata calamity"><b>Vyatipata</b><div class="ds">Calamity</div></div><div class="term c" data-s="variyana comfort"><b>Variyana</b><div class="ds">Comfort</div></div><div class="term c care" data-s="parigha a barrier"><b>Parigha</b><div class="ds">A barrier</div></div><div class="term c" data-s="shiva auspicious"><b>Shiva</b><div class="ds">Auspicious</div></div><div class="term c" data-s="siddha accomplished"><b>Siddha</b><div class="ds">Accomplished</div></div><div class="term c" data-s="sadhya achievable"><b>Sadhya</b><div class="ds">Achievable</div></div><div class="term c" data-s="shubha auspicious"><b>Shubha</b><div class="ds">Auspicious</div></div><div class="term c" data-s="shukla bright"><b>Shukla</b><div class="ds">Bright</div></div><div class="term c" data-s="brahma creative"><b>Brahma</b><div class="ds">Creative</div></div><div class="term c" data-s="indra leadership"><b>Indra</b><div class="ds">Leadership</div></div><div class="term c care" data-s="vaidhriti separation"><b>Vaidhriti</b><div class="ds">Separation</div></div></div></div>
+<div class="tg"><h4>Karana<small>11 names. Vishti is the one read as difficult</small></h4><div class="terms"><div class="term c" data-s="bava routine work"><b>Bava</b><div class="ds">Routine work</div></div><div class="term c" data-s="balava steady effort"><b>Balava</b><div class="ds">Steady effort</div></div><div class="term c" data-s="kaulava friendly"><b>Kaulava</b><div class="ds">Friendly</div></div><div class="term c" data-s="taitila calm"><b>Taitila</b><div class="ds">Calm</div></div><div class="term c" data-s="gara practical"><b>Gara</b><div class="ds">Practical</div></div><div class="term c" data-s="vanija trade"><b>Vanija</b><div class="ds">Trade</div></div><div class="term c care" data-s="vishti often called bhadra"><b>Vishti</b><div class="ds">Often called Bhadra</div></div><div class="term c" data-s="shakuni fixed"><b>Shakuni</b><div class="ds">Fixed</div></div><div class="term c" data-s="chatushpada fixed"><b>Chatushpada</b><div class="ds">Fixed</div></div><div class="term c" data-s="naga fixed"><b>Naga</b><div class="ds">Fixed</div></div><div class="term c" data-s="kimstughna fixed"><b>Kimstughna</b><div class="ds">Fixed</div></div></div></div>
+<div class="tg"><h4>Windows and timings</h4><div class="terms"><div class="term c" data-s="abhijit muhurat a favourable window near midday"><b>Abhijit Muhurat</b><div class="ds">A favourable window near midday</div></div><div class="term c" data-s="brahma muhurta the calm hour before dawn"><b>Brahma Muhurta</b><div class="ds">The calm hour before dawn</div></div><div class="term c care" data-s="rahu kalam a weekday window for routine rather than new starts"><b>Rahu Kalam</b><div class="ds">A weekday window for routine rather than new starts</div></div><div class="term c care" data-s="yamaganda another go-gently window"><b>Yamaganda</b><div class="ds">Another go-gently window</div></div><div class="term c care" data-s="gulika kalam a third go-gently window"><b>Gulika Kalam</b><div class="ds">A third go-gently window</div></div><div class="term c" data-s="sunrise / sunset the panchang day runs from sunrise"><b>Sunrise / sunset</b><div class="ds">The Panchang day runs from sunrise</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>9. Transits (Gochar)</b><span class="ds">Where planets are now, relative to your chart</span></span><span class="tc">6</span><span class="pill s" style="margin:0">Should</span></summary>
+<div class="body">
+
+<div class="tg"><h4>Moon transits<span class="pill m">Must</span></h4><div class="terms"><div class="term c" data-s="chandra gochar the moon’s position now, counted from your moon sign"><b>Chandra Gochar</b><div class="ds">The Moon’s position now, counted from your Moon sign</div></div><div class="term c" data-s="moon sign change every 2–3 days"><b>Moon sign change</b><div class="ds">Every 2–3 days</div></div><div class="term c" data-s="nakshatra change about once a day"><b>Nakshatra change</b><div class="ds">About once a day</div></div><div class="term c care" data-s="chandrashtama the moon in the 8th from your sign"><b>Chandrashtama</b><div class="ds">The Moon in the 8th from your sign</div></div></div></div>
+<div class="tg"><h4>Planet transits</h4><div class="terms"><div class="term c" data-s="gochar a planet’s movement through the signs"><b>Gochar</b><div class="ds">A planet’s movement through the signs</div></div><div class="term c" data-s="transit house which of your houses a planet is passing through"><b>Transit house</b><div class="ds">Which of your houses a planet is passing through</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>10. Matching (Guna Milan)</b><span class="ds">The eight factors behind Match the Energies</span></span><span class="tc">10</span><span class="pill s" style="margin:0">Should</span></summary>
+<div class="body">
+<p class="note">Care-handled throughout. Scores describe fit, never a verdict on a relationship. Dosha terms (such as Mangal and Nadi dosha) are held back until the wording is approved.</p>
+<div class="tg"><h4>The eight factors (Kootas)<small>36 points in total</small></h4><div class="terms"><div class="term c" data-s="varna · 1 inner outlook"><b>Varna · 1</b><div class="ds">Inner outlook</div></div><div class="term c" data-s="vashya · 2 mutual influence"><b>Vashya · 2</b><div class="ds">Mutual influence</div></div><div class="term c" data-s="tara · 3 birth-star harmony"><b>Tara · 3</b><div class="ds">Birth-star harmony</div></div><div class="term c" data-s="yoni · 4 instinctive fit"><b>Yoni · 4</b><div class="ds">Instinctive fit</div></div><div class="term c" data-s="graha maitri · 5 mental friendship"><b>Graha Maitri · 5</b><div class="ds">Mental friendship</div></div><div class="term c" data-s="gana · 6 temperament"><b>Gana · 6</b><div class="ds">Temperament</div></div><div class="term c" data-s="bhakoot · 7 emotional and family harmony"><b>Bhakoot · 7</b><div class="ds">Emotional and family harmony</div></div><div class="term c" data-s="nadi · 8 vitality of the pair"><b>Nadi · 8</b><div class="ds">Vitality of the pair</div></div></div></div>
+<div class="tg"><h4>Concepts</h4><div class="terms"><div class="term c" data-s="guna milan the 36-point matching system"><b>Guna Milan</b><div class="ds">The 36-point matching system</div></div><div class="term c" data-s="total score out of 36"><b>Total score</b><div class="ds">Out of 36</div></div></div></div>
+</div>
+</details>
+<details class="topic">
+<summary><span class="tn"><b>11. Reading the chart</b><span class="ds">How to look at a Kundli</span></span><span class="tc">9</span><span class="pill m" style="margin:0">Must</span></summary>
+<div class="body">
+
+<div class="tg"><h4>Layouts</h4><div class="terms"><div class="term c" data-s="north indian style diamond layout; houses are fixed"><b>North Indian style</b><div class="ds">Diamond layout; houses are fixed</div></div></div></div>
+<div class="tg"><h4>Alternative layout<span class="pill s">Should</span></h4><div class="terms"><div class="term c" data-s="south indian style square layout; signs are fixed"><b>South Indian style</b><div class="ds">Square layout; signs are fixed</div></div></div></div>
+<div class="tg"><h4>Planet conditions<span class="pill c">Could</span></h4><div class="terms"><div class="term c" data-s="conjunction (yuti) planets sharing a house"><b>Conjunction (Yuti)</b><div class="ds">Planets sharing a house</div></div><div class="term c" data-s="aspect (drishti) a planet’s influence on another house"><b>Aspect (Drishti)</b><div class="ds">A planet’s influence on another house</div></div><div class="term c" data-s="exalted (uchcha) a planet at its strongest"><b>Exalted (Uchcha)</b><div class="ds">A planet at its strongest</div></div><div class="term c" data-s="own sign (swakshetra) a planet at home"><b>Own sign (Swakshetra)</b><div class="ds">A planet at home</div></div><div class="term c care" data-s="debilitated (neecha) a planet working harder"><b>Debilitated (Neecha)</b><div class="ds">A planet working harder</div></div><div class="term c care" data-s="retrograde (vakri) a planet appearing to move backward"><b>Retrograde (Vakri)</b><div class="ds">A planet appearing to move backward</div></div><div class="term c care" data-s="combust (asta) a planet too close to the sun"><b>Combust (Asta)</b><div class="ds">A planet too close to the Sun</div></div></div></div>
+</div>
+</details>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav.bar a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){var on=a.getAttribute('href')==='#'+e.target.id;a.classList.toggle('on',on);});}});},{rootMargin:'-20% 0px -70% 0px'});
+  secs.forEach(function(s){if(s)io.observe(s);});
+  var ds=function(){return [].slice.call(document.querySelectorAll('details.topic'));};
+  document.getElementById('open').onclick=function(){ds().forEach(function(d){d.open=true;});};
+  document.getElementById('close').onclick=function(){ds().forEach(function(d){d.open=false;});};
+  document.getElementById('q').addEventListener('input',function(e){
+    var q=e.target.value.trim().toLowerCase();
+    ds().forEach(function(d){
+      var any=false;
+      d.querySelectorAll('.tg').forEach(function(g){
+        var gany=false;
+        g.querySelectorAll('.term').forEach(function(t){var hit=!q||t.getAttribute('data-s').indexOf(q)>-1;t.classList.toggle('hide',!hit);if(hit)gany=true;});
+        g.classList.toggle('hide',!gany);if(gany)any=true;
+      });
+      d.classList.toggle('hide',!any);
+      if(q&&any)d.open=true;
+    });
+  });
+})();
+</script>
+</body>
+</html>
