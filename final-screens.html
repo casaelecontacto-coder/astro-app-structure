@@ -220,11 +220,12 @@ const hHdr2 = `<div class="row sp" style="align-items:flex-start"><div><div clas
 const homeFirst = homeD.replace(hHdr, hHdr2);
 const paidChip = `<span class="chip" style="font-size:.68em;padding:1px 7px;color:var(--mid)">Paid</span>`;
 const homeScrolled = phone(`
-  <div class="row" style="gap:5px;flex-wrap:wrap"><span class="chip">Career</span><span class="chip">Love</span><span class="chip on">Health</span><span class="chip">Money</span></div>
-  <div class="col" style="gap:4px"><div class="h2">Health</div><div style="line-height:1.55">Rest matters more than effort today. A short walk after the evening meal will settle the mind.</div></div>
-  <div class="div"></div>
-  <div class="col" style="gap:4px"><div class="h2">Money</div><div style="line-height:1.55">Hold off on anything new. Small, steady savings are favoured, and a calm conversation about shared costs goes well.</div></div>
+  <div class="card col" style="gap:10px;padding:12px">
+    <div class="row" style="gap:5px;flex-wrap:wrap"><span class="chip">Career</span><span class="chip">Love</span><span class="chip on">Health</span><span class="chip">Money</span></div>
+    <div class="col" style="gap:4px"><div class="h2">Health</div><div style="line-height:1.55">Rest matters more than effort today. A short walk after the evening meal will settle the mind.</div></div>
+  </div>
   <div class="card f col" style="gap:7px;padding:14px">
+    <div class="img" style="height:104px;border-radius:8px">Illustration of the Venus period</div>
     <div class="row sp"><span class="lbl">Your life phase</span><span class="sm">Till 2036</span></div>
     <div style="font-size:1.35em;font-weight:700;line-height:1.2"><span class="term">Venus</span> period</div>
     <div class="bar"><b style="width:50%"></b></div>
@@ -258,7 +259,7 @@ const streakScreen = phone(`
 `, 'Today');
 $('#homeGrid').innerHTML =
   fig(homeFirst,'Today · First screen','The horoscope as a page with audio and the affirmation. The streak chip at the top right (☾ 14) opens the Energy streak screen. The date moves under the greeting to make room.') +
-  fig(homeScrolled,'Today · Scrolled','Below the first screen: the life-area sections (Career, Love, Health, Money) with a jump bar whose highlighted chip follows the section at the top as you scroll, then the Life phase card (opens the Dasha timeline) and the Week’s overview (Paid).') +
+  fig(homeScrolled,'Today · Scrolled','Below the first screen: the life-area sections (Career, Love, Health, Money) in one card, as chips: only the text for the selected chip is shown (Health here), and tapping another chip swaps it. Then the Life phase card (opens the Dasha timeline) and the Week’s overview (Paid).') +
   fig(homeEvening,'Today · After 9 pm','From about 9 pm the Tomorrow’s preview card appears under the affirmation. It shows the theme only, never the reading.') +
   fig(streakScreen,'Energy streak · Opens from the chip','Stage, day count and the next stage, with the last seven days. A missed day dims the glow instead of resetting it.');
 $('#panGrid').innerHTML =
