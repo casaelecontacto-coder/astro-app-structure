@@ -234,34 +234,11 @@ const homeScrolled = phone(`
   </div>
   <div class="card row sp"><div><div class="row" style="gap:6px"><span class="lbl">This week</span>${paidChip}</div><div class="h3">Week’s overview</div><div class="sm">The coming week’s themes</div></div><span class="chev">›</span></div>
 `, 'Today');
-const homeEvening = phone(`
-  ${hHdr2}
-  <div style="flex:1"></div>
-  <div class="col" style="gap:8px;padding:4px 2px">
-    <div class="lbl">Today's horoscope</div>
-    <div style="font-size:1.45em;font-weight:700;line-height:1.3">A day to slow down and listen.</div>
-    ${audio('Listen · 1:20')}
-  </div>
-  ${affirm(true)}
-  <div class="card f"><div class="lbl">Tomorrow’s preview · 9:00 pm</div><div class="h3" style="margin-top:2px">A day for patience.</div><div class="sm">Come back in the morning for the full reading.</div></div>
-  <div class="sm" style="text-align:center">⌄ Scroll for career, love, health and money</div>
-`, 'Today');
-const streakScreen = phone(`
-  <div class="row sp"><span class="sm">‹ Today</span><span></span></div>
-  <div class="col" style="align-items:center;text-align:center;gap:6px;padding:6px 0">
-    <div class="img round" style="width:150px;height:150px">Star<br>(stage 2 of 6)</div>
-    <div class="h1">Day 14</div>
-    <div class="sm">Your energy is a Star</div>
-  </div>
-  <div class="card f"><div class="row sp"><span class="h3">Next: Galaxy</span><span class="sm">7 days to go</span></div><div class="bar" style="margin-top:6px"><b style="width:66%"></b></div></div>
-  <div class="row sp" style="padding:0 6px">${['M','T','W','T','F','S','S'].map((d,i)=>`<div class="col" style="align-items:center;gap:3px"><span style="width:20px;height:20px;border-radius:50%;border:1.4px solid var(--ink);${i<5?'background:var(--ink)':''}"></span><span class="sm" style="font-size:.7em">${d}</span></div>`).join('')}</div>
-  <div class="card f sm">Miss a day and the glow dims. It does not reset to zero.</div>
-`, 'Today');
+const homeEvening = homeFirst.replace('<span class="sm">Wed, 30 Sep</span>','<span class="sm">Wed, 30 Sep · <b style="color:var(--ink);font-weight:600">Tomorrow: a day for patience</b></span>');
 $('#homeGrid').innerHTML =
   fig(homeFirst,'Today · First screen','The horoscope as a page with audio and the affirmation. The streak chip at the top right (☾ 14) opens the Energy streak screen. The date moves under the greeting to make room.') +
   fig(homeScrolled,'Today · Scrolled','Below the first screen: the life-area sections (Career, Love, Health, Money) in one card, as chips: only the text for the selected chip is shown (Health here), and tapping another chip swaps it. Then the Life phase card (opens the Dasha timeline) and the Week’s overview (Paid).') +
-  fig(homeEvening,'Today · After 9 pm','From about 9 pm the Tomorrow’s preview card appears under the affirmation. It shows the theme only, never the reading.') +
-  fig(streakScreen,'Energy streak · Opens from the chip','Stage, day count and the next stage, with the last seven days. A missed day dims the glow instead of resetting it.');
+  fig(homeEvening,'Today · After 9 pm','The same screen as the morning. From about 9 pm one line is added to the date: "Wed, 30 Sep · Tomorrow: a day for patience". It shows the theme only, nothing else moves, and it disappears after midnight. The 9 pm notification carries the same line.');
 $('#panGrid').innerHTML =
   fig(minL,'Panchang · Front','Illustration of the day, then "Today is Shukla Ashtami" with a one-line summary and the Good-time chips.') +
   fig(minLb.replace('class="ph"','class="ph" style="min-height:0"'),'Panchang · Back','Sun arc with sunrise and sunset, then Tithi, Vara, Nakshatra, Yoga and Karana. Each has its value, when it ends and a short paragraph. This page scrolls in the app.');
