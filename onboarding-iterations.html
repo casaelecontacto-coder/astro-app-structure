@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Onboarding iterations</title>
+<style>
+:root{--ink:#1f1f1f;--mid:#6f6f6f;--line:#c9c9c9;--fill:#e6e6e6;--fill2:#f4f4f4;--pg:#eeeeec;--must:#b8862b;--should:#5b5fc7;--could:#2f8f83}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 -apple-system,"Helvetica Neue",Arial,sans-serif;background:var(--pg);color:var(--ink)}
+nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:10px 24px;flex-wrap:wrap}
+nav b{margin-right:12px}
+nav a{color:var(--ink);text-decoration:none;padding:5px 12px;border-radius:99px;font-size:13px;border:1px solid var(--line)}
+nav a:hover{background:var(--fill2)}
+nav label{margin-left:auto;font-size:13px;display:flex;gap:6px;align-items:center;cursor:pointer}
+main{max-width:1500px;margin:0 auto;padding:8px 24px 80px}
+section{padding-top:36px}
+section>h2{font-size:26px;margin:0 0 4px}
+section>p.lead{color:var(--mid);margin:0 0 22px;max-width:760px}
+.grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+figure{margin:0;width:300px}
+figcaption{margin-top:14px;font-size:13px}
+figcaption h4{margin:0 0 4px;font-size:15px}
+figcaption p{margin:3px 0;color:#444}
+figcaption p b{color:var(--ink)}
+
+/* ---------- phone wireframe ---------- */
+.ph{--u:1;width:300px;font-size:calc(12.5px*var(--u));background:#fff;border:2px solid #2a2a2a;border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column;min-height:640px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+body.lg .ph{--u:1.25}
+.sb{display:flex;justify-content:space-between;padding:11px 22px 4px;font-size:.85em;font-weight:600}
+.body{flex:1;padding:8px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.tabs{display:flex;border-top:1px solid var(--line);padding:8px 4px 14px;background:#fff}
+.tabs div{flex:1;text-align:center;font-size:.7em;color:var(--mid)}
+.tabs .on{color:var(--ink);font-weight:700}
+.tabs i{display:block;width:17px;height:17px;border:1.5px solid currentColor;border-radius:5px;margin:0 auto 3px}
+.tabs .on i{background:var(--ink)}
+.card{border:1.2px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.card.f{background:var(--fill2)}
+.card.k{border-color:var(--ink)}
+.h1{font-size:1.5em;font-weight:700;line-height:1.15}
+.h2{font-size:1.1em;font-weight:700;line-height:1.25}
+.h3{font-size:1em;font-weight:700}
+.sm{font-size:.82em;color:var(--mid)}
+.lbl{font-size:.7em;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);font-weight:600}
+.row{display:flex;align-items:center;gap:8px}
+.sp{justify-content:space-between}
+.col{display:flex;flex-direction:column;gap:6px}
+.chip{border:1.2px solid var(--line);border-radius:99px;padding:3px 9px;font-size:.82em;white-space:nowrap}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.scroll{display:flex;gap:6px;overflow:hidden}
+.img{border:1.2px dashed #9a9a9a;background:
+ linear-gradient(to top right,transparent calc(50% - .6px),#c4c4c4 50%,transparent calc(50% + .6px)),
+ linear-gradient(to bottom right,transparent calc(50% - .6px),#c4c4c4 50%,transparent calc(50% + .6px)),#fafafa;
+ display:flex;align-items:center;justify-content:center;color:var(--mid);font-size:.75em;text-align:center}
+.img.round{border-radius:50%}
+.play{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8em;flex:none}
+.wave{flex:1;height:16px;background:repeating-linear-gradient(90deg,#9a9a9a 0 2px,transparent 2px 5px);border-radius:3px}
+.term{border-bottom:1.5px dotted var(--ink)}
+.bar{height:6px;background:var(--fill);border-radius:4px;overflow:hidden}
+.bar b{display:block;height:100%;background:var(--ink)}
+.dash{border:1.2px dashed #aaa;border-radius:12px;padding:10px;color:var(--mid)}
+.lines i{display:block;height:7px;background:var(--fill);border-radius:4px;margin:6px 0}
+.lines i:last-child{width:60%}
+.chev{color:var(--mid);font-size:1.1em}
+.ico{width:26px;height:26px;border:1.3px solid var(--ink);border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-size:.85em}
+.div{height:1px;background:var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* timeline (home D) */
+.tl{position:relative;padding-left:20px}
+.tl:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:1.5px;background:var(--line)}
+.tl .n{position:relative;margin-bottom:12px}
+.tl .n:before{content:"";position:absolute;left:-19px;top:4px;width:11px;height:11px;border-radius:50%;background:#fff;border:1.5px solid var(--ink)}
+.tl .n.now:before{background:var(--ink)}
+.tl .n.dim{opacity:.55}
+
+/* day track (panchang B) */
+.track{position:relative;height:22px;background:var(--fill2);border:1px solid var(--line);border-radius:6px}
+.track u{position:absolute;top:0;bottom:0;text-decoration:none;font-size:.62em;display:flex;align-items:center;justify-content:center;color:#fff;border-radius:4px;overflow:hidden}
+.track .good{background:#3d3d3d}
+.track .slow{background:repeating-linear-gradient(45deg,#8a8a8a 0 4px,#a5a5a5 4px 8px)}
+.track .now{position:absolute;top:-5px;bottom:-5px;width:2px;background:#000}
+.hrs{display:flex;justify-content:space-between;font-size:.65em;color:var(--mid);margin-top:2px}
+
+/* bottom sheet (panchang D) */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.28)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;padding:10px 16px 18px;box-shadow:0 -6px 18px rgba(0,0,0,.15);display:flex;flex-direction:column;gap:8px}
+.sheet .grab{width:38px;height:4px;border-radius:2px;background:#bbb;margin:0 auto 4px}
+
+/* ---------- structure map ---------- */
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.mc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.mc h3{margin:0 0 2px;font-size:16px}
+.mc .sub{color:var(--mid);font-size:12px;margin-bottom:8px}
+.mc ul{list-style:none;margin:0;padding:0}
+.mc li{display:flex;gap:7px;align-items:baseline;padding:4px 0;border-top:1px solid #efefef;font-size:13.5px}
+.bd{font-size:10px;font-weight:700;color:#fff;border-radius:4px;padding:1px 5px;flex:none}
+.bd.m{background:var(--must)}.bd.s{background:var(--should)}.bd.c{background:var(--could)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 22px}
+.flow span{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px}
+.flow em{color:var(--mid);font-style:normal}
+.legend{font-size:13px;color:#444;margin:14px 0 0}
+.legend .bd{margin-right:3px}
+.note{background:#fff3b0;border-radius:8px;padding:10px 12px;font-size:13px;max-width:760px;margin-top:18px}
+
+/* panchang E-H additions */
+.utabs{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);margin:0 -14px;padding:0 14px;font-size:.88em}
+.utabs div{padding:7px 0 8px;color:var(--mid);border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.utabs .on{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
+.btn{border:1.6px solid var(--ink);border-radius:14px;padding:12px;text-align:center;font-weight:700}
+.btn.f{background:var(--ink);color:#fff}
+.big{font-size:1.9em;font-weight:700;line-height:1.15}
+.ring{position:relative;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.dots{display:flex;gap:6px;justify-content:center}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.tbl{width:100%;border-collapse:collapse;font-size:.9em}
+.tbl td{padding:6px 0;border-top:1px solid #e4e4e4}
+.tbl td:last-child{text-align:right;font-weight:700}
+
+/* panchang daily card */
+.dnav{display:flex;justify-content:space-between;align-items:baseline;font-size:.9em;color:var(--mid)}
+.dnav b{color:var(--ink);font-size:1.05em}
+.pcard{border:1.2px solid var(--line);border-radius:6px;background:#fafafa;box-shadow:0 3px 10px rgba(0,0,0,.1);display:flex;flex-direction:column;overflow:hidden}
+.pcard .art{flex:1;min-height:0;border-width:0 0 1.2px;border-radius:0;border-style:dashed}
+.pcard .cap{padding:8px 10px 9px;display:flex;flex-direction:column;gap:2px}
+.pcard .cap .no{font-size:.78em;color:var(--mid)}
+.pcard .cap .nm{font-size:.78em;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.abar{display:flex;justify-content:space-between;gap:6px;padding-top:2px}
+.abar div{display:flex;flex-direction:column;font-weight:700;font-size:1em}
+.abar div span{font-weight:400;font-size:.75em;color:var(--mid)}
+.abar div:nth-child(2){text-align:center}
+.abar div:last-child{text-align:right}
+.seg{display:flex;border:1.2px solid var(--ink);border-radius:99px;overflow:hidden;font-size:.82em}
+.seg span{padding:3px 11px}.seg .on{background:var(--ink);color:#fff}
+.dia{width:100%;display:block}
+.dia .ln{stroke:var(--ink);stroke-width:1.4;fill:none}
+.dia .hn{font-size:9px;fill:#9a9a9a}
+.dia .pl{font-size:11px;font-weight:700;fill:#1f1f1f}
+.dia .hl{fill:#1f1f1f}.dia .hl+text{fill:#fff}
+.dia .tint{fill:#f1f1f1}
+.big3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center}
+.big3 div{border:1.2px solid var(--line);border-radius:12px;padding:8px 2px}
+.big3 b{display:block;font-size:1.05em}
+.li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.li:last-child{border:0}
+.sg{width:30px;height:30px;border-radius:50%;border:1.3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8em;flex:none}
+.sth{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);aspect-ratio:1;border:1.4px solid var(--ink)}
+.sth div{border:.7px solid var(--ink);font-size:.7em;padding:3px;position:relative}
+.sth div small{color:#9a9a9a;font-size:.8em;display:block}
+.sth .mid{grid-column:2/4;grid-row:2/4;border:.7px solid var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--mid)}
+.sth .asc{background:#eee}
+.sth .asc:before{content:"";position:absolute;left:0;top:0;width:14px;height:14px;border-left:1.5px solid var(--ink);border-top:0;background:linear-gradient(135deg,var(--ink) 50%,transparent 50%);width:10px;height:10px;border:0}
+.note{max-width:760px;color:var(--mid);font-size:13px;margin-top:26px}
+.prog{display:flex;gap:4px;padding:0 14px}
+.prog i{flex:1;height:3px;border-radius:2px;background:var(--fill)}.prog i.d{background:var(--ink)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:6px 14px 0;font-size:.85em;color:var(--mid)}
+.cta{margin-top:auto;background:var(--ink);color:#fff;text-align:center;border-radius:99px;padding:11px;font-weight:700}
+.cta.off{background:var(--fill);color:var(--mid)}
+.lnk{text-align:center;color:var(--mid);font-size:.85em;text-decoration:underline}
+.fld{border:1.4px solid var(--ink);border-radius:12px;padding:10px 12px;font-size:1.15em;font-weight:700}
+.fld small{display:block;font-size:.6em;font-weight:600;color:var(--mid);letter-spacing:.08em;text-transform:uppercase}
+.wheel{display:flex;gap:6px;height:150px;position:relative;text-align:center;font-size:1.1em}
+.wheel div{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;color:#aaa}
+.wheel b{color:var(--ink);font-size:1.15em;padding:6px 0;border-top:1.2px solid var(--line);border-bottom:1.2px solid var(--line)}
+.opt{border:1.2px solid var(--line);border-radius:12px;padding:11px 12px;display:flex;justify-content:space-between;align-items:center}
+.opt.on{border-color:var(--ink);border-width:1.8px;background:var(--fill2)}
+.sw{width:34px;height:20px;border-radius:99px;background:var(--fill);position:relative}.sw.on{background:var(--ink)}
+.sw:after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff}.sw.on:after{left:16px}
+</style></head><body>
+<nav><b>Onboarding · iterations</b><a href="#r1">Round 1</a></nav>
+<main><section id="r1">
+<h2>Onboarding · Round 1</h2>
+<p class="lead">The eight-step first run, shown once: Welcome, Gender, Birth date, Birth time, Birth place, Chart reveal, Sign in (optional), Paywall. Notifications are not a step. The last row shows how the morning reminder is asked on the second visit, and the screen where the user chooses what to hear. Rows with several screens are the ones still being decided. The paywall has placeholder prices.</p>
+<div id="rows"></div>
+<div class="note">Open question: should the progress bar count all eight steps or only the five that ask for something? It currently counts all eight.</div>
+</section></main>
+<script>
+const SIGN=['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+const LAG=3; // Gemini
+const P={1:['Mo'],3:['Su','Me'],4:['Ve'],5:['Ke'],6:['Ma'],8:['Sa'],7:['Ju'],11:['Ra']};
+const C={1:[150,92],2:[75,34],3:[26,78],4:[75,150],5:[26,222],6:[75,266],7:[150,218],8:[225,266],9:[274,222],10:[225,150],11:[274,78],12:[225,34]};
+const POLY={1:'150,0 225,75 150,150 75,75',4:'0,150 75,75 150,150 75,225',7:'150,300 75,225 150,150 225,225',10:'300,150 225,225 150,150 225,75'};
+function dia(o={}){
+ let s='<svg class="dia" viewBox="0 0 300 300">';
+ if(o.tint) s+=`<polygon class="tint" points="${POLY[o.tint]}"/>`;
+ s+='<rect class="ln" x="1" y="1" width="298" height="298"/><path class="ln" d="M0 0L300 300M300 0L0 300M150 0L300 150L150 300L0 150Z"/>';
+ for(let h=1;h<=12;h++){
+  const [x,y]=C[h],sn=((LAG-1+h-1)%12)+1,pl=P[h]||[];
+  s+=`<text class="hn" x="${x}" y="${y-(pl.length?10:0)}" text-anchor="middle">${sn}</text>`;
+  pl.forEach((p,i)=>{
+   const hi=o.hl===p;
+   const yy=y+4+i*13-(pl.length>1?4:0);
+   if(hi) s+=`<circle cx="${x}" cy="${yy-4}" r="10" class="hl"/>`;
+   s+=`<text class="pl" x="${x}" y="${yy}" text-anchor="middle" ${hi?'fill="#fff" style="fill:#fff"':''}>${p}</text>`;
+  });
+  if(h===1) s+=`<text class="hn" x="150" y="${y-26}" text-anchor="middle" style="fill:#1f1f1f;font-weight:700">Asc</text>`;
+ }
+ return s+'</svg>';
+}
+
+const sb=`<div class="sb"><span>9:41</span><span>●●● ▮</span></div>`;
+const pr=n=>`<div class="prog">${Array.from({length:8},(_, i)=>`<i class="${i<n?'d':''}"></i>`).join('')}</div>`;
+const tp=(n,skip)=>`${pr(n)}<div class="top"><span>‹ Back</span><span>${skip||''}</span></div>`;
+const ph=(inner,top='')=>`<div class="ph">${sb}${top}<div class="body" style="padding-top:14px">${inner}</div></div>`;
+
+const orbit=(w=190)=>`<svg viewBox="0 0 200 200" style="width:${w}px;display:block;margin:0 auto"><circle cx="100" cy="100" r="86" fill="none" stroke="#d2d2d2" stroke-width="1"/><circle cx="100" cy="100" r="58" fill="none" stroke="#9a9a9a" stroke-width="1" stroke-dasharray="2 4"/><circle cx="100" cy="100" r="30" fill="#f4f4f4" stroke="#1f1f1f" stroke-width="1.4"/><circle cx="100" cy="100" r="5" fill="#1f1f1f"/><circle cx="158" cy="100" r="7" fill="#fff" stroke="#1f1f1f" stroke-width="1.6"/><circle cx="52" cy="144" r="4" fill="#1f1f1f"/><circle cx="100" cy="14" r="4" fill="#9a9a9a"/><path d="M148 38 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#1f1f1f"/><path d="M40 70 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="#9a9a9a"/></svg>`;
+const shield=`<svg viewBox="0 0 120 110" style="width:104px;display:block;margin:0 auto"><circle cx="60" cy="56" r="50" fill="#f4f4f4"/><path d="M60 14 L96 28 V56 C96 78 80 94 60 102 C40 94 24 78 24 56 V28 Z" fill="#fff" stroke="#1f1f1f" stroke-width="1.8"/><path d="M43 57 l12 12 23 -25" fill="none" stroke="#1f1f1f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M100 20 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="#1f1f1f"/></svg>`;
+const moonSvg=`<svg viewBox="0 0 40 40" width="30"><path d="M28 5a16 16 0 1 0 7 27A14 14 0 0 1 28 5z" fill="#1f1f1f"/></svg>`;
+const emblem=(()=>{let t='';for(let i=0;i<12;i++){const a=i*Math.PI/6,x1=100+78*Math.cos(a),y1=100+78*Math.sin(a),x2=100+90*Math.cos(a),y2=100+90*Math.sin(a);t+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#1f1f1f" stroke-width="1.4"/>`}
+ return `<svg viewBox="0 0 200 200" style="width:176px;display:block;margin:4px auto"><circle cx="100" cy="100" r="92" fill="#f6f6f6"/><circle cx="100" cy="100" r="92" fill="none" stroke="#1f1f1f" stroke-width="1.4"/>${t}<circle cx="100" cy="100" r="62" fill="none" stroke="#9a9a9a" stroke-dasharray="2 4"/><path d="M100 46 L154 100 L100 154 L46 100 Z" fill="#fff" stroke="#1f1f1f" stroke-width="1.4"/><path d="M100 46 L100 154 M46 100 L154 100" stroke="#c4c4c4"/><circle cx="100" cy="73" r="6" fill="#1f1f1f"/><circle cx="127" cy="100" r="4" fill="#fff" stroke="#1f1f1f" stroke-width="1.5"/><circle cx="73" cy="100" r="4" fill="#1f1f1f"/><circle cx="100" cy="127" r="5" fill="#fff" stroke="#1f1f1f" stroke-width="1.5"/></svg>`})();
+const phg=(inner,top='',tall)=>`<div class="ph" style="${tall?'min-height:'+tall+'px;':''}background:radial-gradient(120% 55% at 50% 0%,#f1f1ef 0%,#fff 64%)">${sb}${top}<div class="body" style="padding-top:14px">${inner}</div></div>`;
+
+const topicRow=(ic,t,sub,on,extra='')=>`<div style="padding:11px 12px;border-top:1px solid #ececec"><div class="row sp"><div class="row" style="gap:10px;min-width:0"><span class="sg" style="width:32px;height:32px;font-size:.9em">${ic}</span><div><b>${t}</b><div class="sm" style="font-size:.82em">${sub}</div></div></div><div class="sw ${on?'on':''}"></div></div>${extra}</div>`;
+const remSheet=`<div class="ph">${sb}<div class="body"><div class="row sp"><div class="h2" style="font-size:1.2em">Good morning, Aarav</div><span class="chip on">☾ 2</span></div><div style="flex:1"></div><div class="lbl">Today's horoscope</div><div class="h2">A day to slow down and listen.</div><div class="lines"><i></i><i></i><i></i></div><div class="row"><div class="play">▶</div><div class="wave"></div></div></div><div class="scrim"></div><div class="sheet"><div class="grab"></div><div class="lbl">Welcome back</div><div style="font-size:1.35em;font-weight:700;line-height:1.2">Want a note like this every morning?</div><div class="sm">You choose what you hear and when. Change it any time.</div><div class="cta" style="margin-top:6px">Choose notifications</div><div class="lnk">Not now</div></div></div>`;
+const remPrefs=phg(`<div class="row sp"><span class="sm">‹ Back</span><span></span></div><div><div class="h1">Notifications</div><div class="sm" style="margin-top:2px">What to hear, and when to hear it.</div></div><div class="lbl" style="margin-top:4px">What to hear</div><div class="card" style="padding:0;overflow:hidden"><div style="border-top:0">${topicRow('☀','Morning reading','Your horoscope and affirmation',true).replace('border-top:1px solid #ececec','border-top:0')}</div>${topicRow('▣','Panchang times','Good and avoid windows, once a day',true)}${topicRow('☾','Moon changes','When the Moon moves',true)}${topicRow('✦','Tomorrow’s preview','A hint of tomorrow, at night',true)}</div><div class="lbl" style="margin-top:4px">When</div><div class="card col" style="gap:10px"><div class="row sp"><b>Morning note</b><span class="sm">Every day</span></div><div class="row" style="flex-wrap:wrap;gap:6px"><span class="chip">6:00</span><span class="chip on">7:00 AM</span><span class="chip">8:00</span><span class="chip">9:00</span><span class="chip">Custom</span></div><div class="div"></div><div class="row sp"><b>Tomorrow’s preview</b><span class="chip">9:00 PM ›</span></div></div><div class="cta" style="margin-top:8px">Save</div>`,'');
+
+const bk='<div class="top"><span>‹ Back</span><span></span></div>';
+const R=[
+['1 · Welcome','The first thing a new user reads. It promises company, not just a chart.',[
+ ['Someone in your corner','A calm illustration, one warm line about companionship, and one button.',phg(`<div style="margin-top:26px">${orbit(188)}</div><div style="text-align:center;margin-top:4px"><div class="lbl">Welcome</div><div class="h1" style="font-size:1.75em;margin-top:6px;line-height:1.15">Someone in your corner, every single day.</div><div class="sm" style="font-size:1em;margin-top:10px;line-height:1.5">Your chart explained in plain words, and a short note each morning that feels written for you.</div></div><div class="cta">Get started</div><div class="lnk">I already have an account</div>`)]]],
+['2 · Gender','Asked once during setup. Two ways to ask it plainly, each with its reason.',[
+ ['Plain list','Four large choices with a one-line reason under the question. Tapping one moves on.',ph(`<div class="h1">How should we address you?</div><div class="sm">We use this to word your readings and for matching. You can change it later in Me.</div><div class="opt"><b>Woman</b><span>○</span></div><div class="opt"><b>Man</b><span>○</span></div><div class="opt"><b>Non-binary</b><span>○</span></div><div class="opt"><b>Prefer not to say</b><span>○</span></div><div class="cta off">Continue</div>`,tp(1))],
+ ['A question from your guide','Asked like a conversation: a short question from the guide, and replies the user taps. It sets the tone of the whole app.',ph(`<div class="col" style="gap:10px;margin-top:6px"><div style="align-self:flex-start;max-width:88%;background:#f1f1f1;border-radius:16px 16px 16px 4px;padding:10px 12px;line-height:1.45"><div class="lbl" style="margin-bottom:3px">Your guide</div>Hi, I’m glad you’re here. Before we start, how should I speak about you?</div></div><div class="col" style="gap:8px;align-items:flex-end;margin-top:8px">${['As a woman','As a man','Non-binary','I’d rather not say'].map((t,i)=>`<div style="border:1.4px solid ${i==0?'var(--ink)':'var(--line)'};${i==0?'background:var(--ink);color:#fff;':''}border-radius:16px 16px 4px 16px;padding:9px 14px;font-weight:600">${t}</div>`).join('')}</div><div style="flex:1"></div><div class="sm" style="text-align:center">Only used to word your notes. Never shown to anyone.</div><div class="cta" style="margin-top:6px">Continue</div>`,tp(1))]]],
+['3 · Birth date  and  4 · Birth time','Two questions, side by side. The date is required. For the time, “I don’t know” is a quiet link under the picker.',[
+ ['3 · Birth date · Wheel picker','Three scroll wheels. Fast, hard to mistype, works one-handed.',ph(`<div class="h1">When were you born?</div><div class="sm">Your chart starts from this day.</div><div class="wheel"><div>11<b>12</b>13</div><div>Feb<b>Mar</b>Apr</div><div>1993<b>1994</b>1995</div></div><div class="cta">Continue</div>`,tp(2))],
+ ['4 · Birth time · Picker with a link','A time picker; "I don\'t know" is a quiet link under it.',ph(`<div class="h1">What time were you born?</div><div class="sm">The closer, the better. The rising sign depends on it.</div><div class="wheel"><div>05<b>06</b>07</div><div>39<b>40</b>41</div><div>PM<b>AM</b>PM</div></div><div class="lnk">I don't know my birth time</div><div class="cta">Continue</div>`,tp(3))]]],
+['5 · Birth place','Needed for the rising sign and timings.',[
+ ['Search as you type','One field with city suggestions. The simplest version.',ph(`<div class="h1">Where were you born?</div><div class="fld"><small>City</small>Pun<span style="color:#aaa">|</span></div><div class="li"><span>📍</span><div style="flex:1"><b>Pune</b><div class="sm">Maharashtra, India</div></div></div><div class="li"><span>📍</span><div style="flex:1"><b>Punalur</b><div class="sm">Kerala, India</div></div></div><div class="li"><span>📍</span><div style="flex:1"><b>Punjab</b><div class="sm">Region, India</div></div></div>`,tp(4))]]],
+['6 · Chart reveal','The payoff after the questions. Three ways to make the user feel it was made for them.',[
+ ['One sentence about you','Leads with a sentence about them in plain words. Nothing else to read.',ph(`<div class="lbl" style="margin-top:20px">Here is you, in short</div><div class="h1" style="font-size:1.8em">Curious, talkative, and quick to feel things.</div><div class="sm" style="font-size:1em">Your Moon and your rising sign are both Gemini.</div><div class="cta">Continue</div>`,tp(5))],
+ ['This sky is yours alone','An emblem drawn from their own birth moment, with their date, time and place beneath it. The feeling is: this is your moment, drawn for you.',phg(`<div class="lbl" style="text-align:center;margin-top:6px">Your chart is ready</div>${emblem}<div style="text-align:center"><div class="h1" style="font-size:1.6em">This sky belongs to you.</div><div class="sm" style="font-size:1em;margin-top:6px;line-height:1.5">This is how the sky looked the moment you arrived: 6:40 am, 12 March 1994, in Pune.</div></div><div class="row" style="justify-content:center;flex-wrap:wrap"><span class="chip">Gemini rising</span><span class="chip">Gemini Moon</span><span class="chip">Ardra</span></div><div class="cta">Continue</div>`,tp(5))],
+ ['A note to you','A short letter from the guide, addressed to them by name. It reads like someone who has met them.',phg(`<div class="card" style="background:#fffdf8;padding:16px;margin-top:4px;line-height:1.55"><div class="lbl">A note for you</div><div style="font-size:1.3em;font-weight:700;margin:6px 0">Dear Aarav,</div><div style="font-size:.95em;color:#333">You arrived with a curious mind and a gentle heart. Your Moon and your rising sign are both Gemini, so you think by talking and you feel by listening. That is not a flaw. It is how you find your way.</div><div style="font-size:.95em;color:#333;margin-top:8px">I will be here each morning, to help you read the sky.</div><div style="margin-top:12px;font-style:italic">Your guide</div><div style="margin-top:6px">${moonSvg}</div></div><div class="cta">Continue</div>`,tp(5))]]],
+['7 · Sign in (optional)','Gentle and skippable. The app works without an account; signing in protects the chart and syncs devices.',[
+ ['Safe, with three reasons','An illustration, a one-line promise, three plain benefits and two sign-in choices. Skip is as easy to tap as the buttons.',phg(`<div style="margin-top:2px">${shield}</div><div style="text-align:center"><div class="h1" style="font-size:1.6em">Keep your chart safe</div><div class="sm" style="font-size:1em;margin-top:6px">So it is always here when you come back.</div></div><div class="card f col" style="gap:10px;padding:12px">${[['☁','Backed up','Never lose your chart if you change phones'],['▢','On every device','Open it on your phone or tablet'],['↺','Easy to restore','Pick up exactly where you left off']].map(r=>`<div class="row"><span class="sg" style="width:32px;height:32px;font-size:.9em">${r[0]}</span><div><b>${r[1]}</b><div class="sm" style="font-size:.85em">${r[2]}</div></div></div>`).join('')}</div><div style="flex:1"></div><div class="cta" style="margin-top:0">Continue with Apple</div><div style="border:1.5px solid var(--ink);border-radius:99px;padding:11px;text-align:center;font-weight:700">Continue with email</div><div class="lnk" style="font-size:1em;color:var(--ink)">Skip for now</div>`,tp(6))],
+ ['Only on this phone','Shows the risk plainly: the chart exists only on this phone. One button adds a sign-in, and the other way out is just as clear.',phg(`<div class="h1" style="margin-top:8px;line-height:1.15">Your chart lives only on this phone</div><div class="card f col" style="gap:10px;padding:16px;align-items:center;text-align:center"><div class="row" style="gap:12px;justify-content:center"><span style="width:42px;height:66px;border:1.7px solid var(--ink);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:.7em;background:#fff">you</span><span style="color:#9a9a9a;letter-spacing:3px">· · ·</span><span style="width:70px;height:48px;border:1.6px dashed #9a9a9a;border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:.7em;color:#8a8a8a;background:#fff">safe copy</span></div><div class="sm" style="line-height:1.45">Add a sign-in and we keep a safe copy, so you can open it anywhere.</div></div><div style="flex:1"></div><div class="cta" style="margin-top:0">Add a sign-in</div><div class="lnk" style="font-size:1em;color:var(--ink)">Not now, I’ll do it later</div>`,tp(6))]]],
+['8 · Paywall','Closable, with the welcome offer; then Today. The close button is always visible.',[
+ ['Sheet over Today','The paywall as a closable sheet over the Today screen, so the user can already see the app behind it. Less pressure, but the offer sits on a smaller surface.',`<div class="ph">${sb}<div class="body"><div class="row sp"><div class="h2" style="font-size:1.2em">Good morning, Aarav</div><span class="chip on">☾ 1</span></div><div style="flex:1"></div><div class="lbl">Today's horoscope</div><div class="h2">A day to slow down and listen.</div><div class="lines"><i></i><i></i><i></i></div></div><div class="scrim"></div><div class="sheet"><div class="grab"></div><div class="row sp"><div class="h2">Go deeper into your chart</div><span style="width:24px;height:24px;border:1.3px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8em">✕</span></div><div class="sm">Every planet, life area, transit and life phase, in plain words.</div><div class="card k" style="text-align:center"><div class="lbl">Welcome offer</div><div class="h3">[offer] on your first [period]</div><div class="sm">then [price] per [period]</div></div><div class="cta">Start with the offer</div><div class="lnk">Not now</div></div></div>`]]],
+['On the second visit · Morning reminder','Asked once, the second time the user opens the app, not the first. By then they have read a day’s note and know what they would be signing up for. “Choose notifications” opens the Notifications screen, which also lives in Me.',[
+ ['Sheet on the second visit','A calm sheet over Today with one button, Choose notifications. It opens the Notifications screen, so nothing is turned on until the user has picked what to hear and when. “Not now” closes it and the app leaves it alone for a while.',remSheet],
+ ['Choose what to hear, and when','The full screen behind “Choose”, also reached from Me. Just two parts: what to hear, with a switch for each topic, and when to hear it, with the times for the morning note and tomorrow’s preview.',remPrefs]]],
+['Already have an account · Log in','Opens from “I already have an account” on Welcome. A returning user skips every question: their chart, notes and streak are restored, and they land on Today. The paywall is skipped if they already subscribe.',[
+ ['Log in','Two ways in, the same two as on the sign-in step, and a way back for anyone who tapped by mistake.',phg(`<div style="margin-top:14px">${orbit(120)}</div><div style="text-align:center"><div class="h1" style="font-size:1.6em">Welcome back</div><div class="sm" style="font-size:1em;margin-top:6px">Sign in to bring your chart back.</div></div><div style="flex:1"></div><div class="cta" style="margin-top:0">Continue with Apple</div><div style="border:1.5px solid var(--ink);border-radius:99px;padding:11px;text-align:center;font-weight:700">Continue with email</div><div class="lnk" style="font-size:1em;color:var(--ink)">I’m new here, start fresh</div>`,bk)],
+ ['Your email','One field. No password to remember: a six-digit code is sent instead.',ph(`<div class="h1">What’s your email?</div><div class="sm">We’ll send you a six-digit code. No password needed.</div><div class="fld"><small>Email</small><span style="color:#aaa">name@example.com</span></div><div style="flex:1"></div><div class="cta">Send code</div>`,bk)],
+ ['Check your email','The code goes in six boxes. Resend and a different email are one tap away.',ph(`<div class="h1">Check your email</div><div class="sm">We sent a six-digit code to name@example.com.</div><div class="row" style="gap:6px;justify-content:space-between">${[1,2,3,4,5,6].map(i=>`<div style="flex:1;height:46px;border:1.4px solid ${i==1?'var(--ink)':'var(--line)'};border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2em">${i<4?'•':''}</div>`).join('')}</div><div class="lnk">Send it again</div><div class="lnk">Use a different email</div><div style="flex:1"></div><div class="cta off">Continue</div>`,bk)],
+ ['Bringing your chart back','A short pause that says what is coming back. Then Today opens, with no questions asked.',phg(`<div style="margin-top:50px">${orbit(160)}</div><div style="text-align:center"><div class="h1" style="font-size:1.6em">Welcome back, Aarav</div><div class="sm" style="font-size:1em;margin-top:8px;line-height:1.5">Your chart, your notes and your streak are on their way.</div></div><div class="bar" style="margin:10px 24px 0"><b style="width:62%"></b></div>`)],
+ ['No account found','If the email is new to us: say so plainly, and offer to try another email or to start fresh.',ph(`<div style="margin-top:60px;text-align:center"><div class="h1" style="font-size:1.5em">We couldn’t find an account with that email</div><div class="sm" style="font-size:1em;margin-top:8px;line-height:1.5">Check the spelling, or try the email you used to sign up.</div></div><div style="flex:1"></div><div class="cta" style="margin-top:0">Try another email</div><div style="border:1.5px solid var(--ink);border-radius:99px;padding:11px;text-align:center;font-weight:700">Start fresh</div>`,bk)]]]
+];
+const el=document.getElementById('rows');
+R.forEach(([t,sub,vs])=>{el.insertAdjacentHTML('beforeend',`<h3 style="margin:34px 0 2px;font-size:20px">${t}</h3><div class="sm" style="margin-bottom:14px">${sub}</div><div class="grid">${vs.map(v=>`<figure>${v[2]}<figcaption><h4>${v[0]}</h4><p>${v[1]}</p></figcaption></figure>`).join('')}</div>`)});
+</script></body></html>

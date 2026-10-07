@@ -216,7 +216,7 @@ const minLb = phoneL(`
   </div>
 `);
 
-const hHdr2 = `<div class="row sp" style="align-items:flex-start"><div><div class="h2" style="font-size:1.2em">Good morning, Aarav</div><span class="sm">Wed, 30 Sep</span></div><span class="chip on" style="margin-top:2px">☾ 14 ›</span></div>`;
+const hHdr2 = `<div class="row sp" style="align-items:flex-start"><div><div class="h2" style="font-size:1.2em">Good morning, Aarav</div><span class="sm">Wed, 30 Sep</span></div><span class="row" style="gap:6px;margin-top:0"><span style="width:30px;height:30px;border:1.4px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 17h12l-1.5-2.2V10a4.5 4.5 0 0 0-9 0v4.8L6 17z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><span class="chip on">☾ 14 ›</span></span></div>`;
 const homeFirst = homeD.replace(hHdr, hHdr2);
 const paidChip = `<span class="chip" style="font-size:.68em;padding:1px 7px;color:var(--mid)">Paid</span>`;
 const homeScrolled = phone(`
@@ -236,7 +236,7 @@ const homeScrolled = phone(`
 `, 'Today');
 const homeEvening = homeFirst.replace('<span class="sm">Wed, 30 Sep</span>','<span class="sm">Wed, 30 Sep · <b style="color:var(--ink);font-weight:600">Tomorrow: a day for patience</b></span>');
 $('#homeGrid').innerHTML =
-  fig(homeFirst,'Today · First screen','The horoscope as a page with audio and the affirmation. The streak chip at the top right (☾ 14) opens the Energy streak screen. The date moves under the greeting to make room.') +
+  fig(homeFirst,'Today · First screen','The horoscope as a page with audio and the affirmation. At the top right, the bell opens Notifications and the streak chip (☾ 14) opens the Energy streak. The date moves under the greeting to make room.') +
   fig(homeScrolled,'Today · Scrolled','Below the first screen: the life-area sections (Career, Love, Health, Money) in one card, as chips: only the text for the selected chip is shown (Health here), and tapping another chip swaps it. Then the Life phase card (opens the Dasha timeline) and the Week’s overview (Paid).') +
   fig(homeEvening,'Today · After 9 pm','The same screen as the morning. From about 9 pm one line is added to the date: "Wed, 30 Sep · Tomorrow: a day for patience". It shows the theme only, nothing else moves, and it disappears after midnight. The 9 pm notification carries the same line.');
 $('#panGrid').innerHTML =
