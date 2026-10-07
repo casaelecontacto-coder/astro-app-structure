@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Astro App Final Screens</title>
+<style>
+:root{--ink:#1f1f1f;--mid:#6f6f6f;--line:#c9c9c9;--fill:#e6e6e6;--fill2:#f4f4f4;--pg:#eeeeec;--must:#b8862b;--should:#5b5fc7;--could:#2f8f83}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 -apple-system,"Helvetica Neue",Arial,sans-serif;background:var(--pg);color:var(--ink)}
+nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:10px 24px;flex-wrap:wrap}
+nav b{margin-right:12px}
+nav a{color:var(--ink);text-decoration:none;padding:5px 12px;border-radius:99px;font-size:13px;border:1px solid var(--line)}
+nav a:hover{background:var(--fill2)}
+nav label{margin-left:auto;font-size:13px;display:flex;gap:6px;align-items:center;cursor:pointer}
+main{max-width:1500px;margin:0 auto;padding:8px 24px 80px}
+section{padding-top:36px}
+section>h2{font-size:26px;margin:0 0 4px}
+section>p.lead{color:var(--mid);margin:0 0 22px;max-width:760px}
+.grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+figure{margin:0;width:300px}
+figcaption{margin-top:14px;font-size:13px}
+figcaption h4{margin:0 0 4px;font-size:15px}
+figcaption p{margin:3px 0;color:#444}
+figcaption p b{color:var(--ink)}
+
+/* ---------- phone wireframe ---------- */
+.ph{--u:1;width:300px;font-size:calc(12.5px*var(--u));background:#fff;border:2px solid #2a2a2a;border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column;min-height:640px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+body.lg .ph{--u:1.25}
+.sb{display:flex;justify-content:space-between;padding:11px 22px 4px;font-size:.85em;font-weight:600}
+.body{flex:1;padding:8px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.tabs{display:flex;border-top:1px solid var(--line);padding:8px 4px 14px;background:#fff}
+.tabs div{flex:1;text-align:center;font-size:.7em;color:var(--mid)}
+.tabs .on{color:var(--ink);font-weight:700}
+.tabs i{display:block;width:17px;height:17px;border:1.5px solid currentColor;border-radius:5px;margin:0 auto 3px}
+.tabs .on i{background:var(--ink)}
+.card{border:1.2px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.card.f{background:var(--fill2)}
+.card.k{border-color:var(--ink)}
+.h1{font-size:1.5em;font-weight:700;line-height:1.15}
+.h2{font-size:1.1em;font-weight:700;line-height:1.25}
+.h3{font-size:1em;font-weight:700}
+.sm{font-size:.82em;color:var(--mid)}
+.lbl{font-size:.7em;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);font-weight:600}
+.row{display:flex;align-items:center;gap:8px}
+.sp{justify-content:space-between}
+.col{display:flex;flex-direction:column;gap:6px}
+.chip{border:1.2px solid var(--line);border-radius:99px;padding:3px 9px;font-size:.82em;white-space:nowrap}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.scroll{display:flex;gap:6px;overflow:hidden}
+.img{border:1.2px dashed #9a9a9a;background:
+ linear-gradient(to top right,transparent calc(50% - .6px),#c4c4c4 50%,transparent calc(50% + .6px)),
+ linear-gradient(to bottom right,transparent calc(50% - .6px),#c4c4c4 50%,transparent calc(50% + .6px)),#fafafa;
+ display:flex;align-items:center;justify-content:center;color:var(--mid);font-size:.75em;text-align:center}
+.img.round{border-radius:50%}
+.play{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8em;flex:none}
+.wave{flex:1;height:16px;background:repeating-linear-gradient(90deg,#9a9a9a 0 2px,transparent 2px 5px);border-radius:3px}
+.term{border-bottom:1.5px dotted var(--ink)}
+.bar{height:6px;background:var(--fill);border-radius:4px;overflow:hidden}
+.bar b{display:block;height:100%;background:var(--ink)}
+.dash{border:1.2px dashed #aaa;border-radius:12px;padding:10px;color:var(--mid)}
+.lines i{display:block;height:7px;background:var(--fill);border-radius:4px;margin:6px 0}
+.lines i:last-child{width:60%}
+.chev{color:var(--mid);font-size:1.1em}
+.ico{width:26px;height:26px;border:1.3px solid var(--ink);border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-size:.85em}
+.div{height:1px;background:var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* timeline (home D) */
+.tl{position:relative;padding-left:20px}
+.tl:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:1.5px;background:var(--line)}
+.tl .n{position:relative;margin-bottom:12px}
+.tl .n:before{content:"";position:absolute;left:-19px;top:4px;width:11px;height:11px;border-radius:50%;background:#fff;border:1.5px solid var(--ink)}
+.tl .n.now:before{background:var(--ink)}
+.tl .n.dim{opacity:.55}
+
+/* day track (panchang B) */
+.track{position:relative;height:22px;background:var(--fill2);border:1px solid var(--line);border-radius:6px}
+.track u{position:absolute;top:0;bottom:0;text-decoration:none;font-size:.62em;display:flex;align-items:center;justify-content:center;color:#fff;border-radius:4px;overflow:hidden}
+.track .good{background:#3d3d3d}
+.track .slow{background:repeating-linear-gradient(45deg,#8a8a8a 0 4px,#a5a5a5 4px 8px)}
+.track .now{position:absolute;top:-5px;bottom:-5px;width:2px;background:#000}
+.hrs{display:flex;justify-content:space-between;font-size:.65em;color:var(--mid);margin-top:2px}
+
+/* bottom sheet (panchang D) */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.28)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;padding:10px 16px 18px;box-shadow:0 -6px 18px rgba(0,0,0,.15);display:flex;flex-direction:column;gap:8px}
+.sheet .grab{width:38px;height:4px;border-radius:2px;background:#bbb;margin:0 auto 4px}
+
+/* ---------- structure map ---------- */
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.mc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.mc h3{margin:0 0 2px;font-size:16px}
+.mc .sub{color:var(--mid);font-size:12px;margin-bottom:8px}
+.mc ul{list-style:none;margin:0;padding:0}
+.mc li{display:flex;gap:7px;align-items:baseline;padding:4px 0;border-top:1px solid #efefef;font-size:13.5px}
+.bd{font-size:10px;font-weight:700;color:#fff;border-radius:4px;padding:1px 5px;flex:none}
+.bd.m{background:var(--must)}.bd.s{background:var(--should)}.bd.c{background:var(--could)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 22px}
+.flow span{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px}
+.flow em{color:var(--mid);font-style:normal}
+.legend{font-size:13px;color:#444;margin:14px 0 0}
+.legend .bd{margin-right:3px}
+.note{background:#fff3b0;border-radius:8px;padding:10px 12px;font-size:13px;max-width:760px;margin-top:18px}
+
+/* panchang E-H additions */
+.utabs{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);margin:0 -14px;padding:0 14px;font-size:.88em}
+.utabs div{padding:7px 0 8px;color:var(--mid);border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.utabs .on{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
+.btn{border:1.6px solid var(--ink);border-radius:14px;padding:12px;text-align:center;font-weight:700}
+.btn.f{background:var(--ink);color:#fff}
+.big{font-size:1.9em;font-weight:700;line-height:1.15}
+.ring{position:relative;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.dots{display:flex;gap:6px;justify-content:center}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.tbl{width:100%;border-collapse:collapse;font-size:.9em}
+.tbl td{padding:6px 0;border-top:1px solid #e4e4e4}
+.tbl td:last-child{text-align:right;font-weight:700}
+
+/* panchang daily card */
+.dnav{display:flex;justify-content:space-between;align-items:baseline;font-size:.9em;color:var(--mid)}
+.dnav b{color:var(--ink);font-size:1.05em}
+.pcard{border:1.2px solid var(--line);border-radius:6px;background:#fafafa;box-shadow:0 3px 10px rgba(0,0,0,.1);display:flex;flex-direction:column;overflow:hidden}
+.pcard .art{flex:1;min-height:0;border-width:0 0 1.2px;border-radius:0;border-style:dashed}
+.pcard .cap{padding:8px 10px 9px;display:flex;flex-direction:column;gap:2px}
+.pcard .cap .no{font-size:.78em;color:var(--mid)}
+.pcard .cap .nm{font-size:.78em;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.abar{display:flex;justify-content:space-between;gap:6px;padding-top:2px}
+.abar div{display:flex;flex-direction:column;font-weight:700;font-size:1em}
+.abar div span{font-weight:400;font-size:.75em;color:var(--mid)}
+.abar div:nth-child(2){text-align:center}
+.abar div:last-child{text-align:right}
+</style>
+</head>
+<body>
+<nav>
+  <b>Astro App · Final screens</b>
+  <a href="#home">Today</a>
+  <a href="#panchang">Panchang</a>
+  <label><input type="checkbox" id="lg"> Large text</label>
+</nav>
+<main>
+<section id="home">
+  <h2>Today</h2>
+  <p class="lead">The home tab: the day's horoscope as a page, audio read-aloud, and the affirmation that also appears on the home screen widget. Career, love, health and money sit below the first screen.</p>
+  <div class="grid" id="homeGrid"></div>
+</section>
+<section id="panchang">
+  <h2>Panchang</h2>
+  <p class="lead">One day card with a front and a back. The front names the day and shows the good times. The back opens with the sun arc, then the five limbs in plain words, with the Moon transit and a "For you" line inside Nakshatra.</p>
+  <div class="grid" id="panGrid"></div>
+  <div class="note">All names, dates and times on these screens are sample data, not real Panchang values.</div>
+</section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+document.getElementById('lg').addEventListener('change', e => document.body.classList.toggle('lg', e.target.checked));
+
+const TABS = ['Today','Panchang','Chart','People','Me'];
+const tabbar = a => `<div class="tabs">${TABS.map(t=>`<div class="${t===a?'on':''}"><i></i>${t}</div>`).join('')}</div>`;
+const phone = (body, active, extra='') => `<div class="ph"><div class="sb"><span>9:41</span><span>●●● ▮</span></div><div class="body">${body}</div>${extra}${tabbar(active)}</div>`;
+const fig = (ph, title, note) => `<figure>${ph}<figcaption><h4>${title}</h4><p>${note}</p></figcaption></figure>`;
+const lines = n => `<div class="lines">${'<i></i>'.repeat(n)}</div>`;
+const audio = t => `<div class="row"><div class="play">▶</div><div class="wave"></div><span class="sm">${t}</span></div>`;
+const hHdr = `<div class="row sp"><div class="h2" style="font-size:1.2em">Good morning, Aarav</div><span class="sm">Wed, 30 Sep</span></div>`;
+const affirm = (k=false) => `<div class="card ${k?'k':'f'} col" style="text-align:center;gap:4px;padding:14px"><div class="lbl">Today's affirmation</div><div class="h2" style="font-size:1.2em">“I move at my own steady pace.”</div><div class="sm">Also on your home screen widget</div></div>`;
+const homeD1 = phone(`
+  ${hHdr}
+  <div style="flex:1"></div>
+  <div class="col" style="gap:10px;padding:4px 2px">
+    <div class="lbl">Today's horoscope</div>
+    <div style="font-size:1.45em;font-weight:700;line-height:1.3">A day to slow down and listen.</div>
+    <div style="font-size:1.05em;line-height:1.6">Nothing needs forcing today. Steady effort is enough, and a calm reply will go further than a quick one. Finish what is already on your desk, and leave the big new thing for another day.</div>
+    ${audio('Listen · 1:20')}
+  </div>
+  ${affirm(true)}
+  <div class="sm" style="text-align:center">⌄ Scroll for career, love, health and money</div>
+`, 'Today');
+const homeD = homeD1;
+/* ================= PANCHANG · CARD + SENTENCE ================= */
+const dnav = `<div class="dnav"><span>‹ Sat 3</span><b>Today</b><span>Mon 5 ›</span></div>`;
+
+/* L · The print, full size (card + five limbs on the back) */
+const pill = (on) => { const t=[['Today','☀'],['Panchang','▣'],['You','◎'],['Energy','◌']]; return `<div class="row" style="border:1.2px solid var(--line);border-radius:99px;padding:5px;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.08)">${t.map(([n])=>`<div style="flex:1;text-align:center;font-size:.7em;padding:5px 0 4px;border-radius:99px;${n===on?'background:var(--fill);color:var(--ink);font-weight:700':'color:var(--mid)'}"><i style="display:block;width:17px;height:17px;border:1.5px solid currentColor;border-radius:5px;margin:0 auto 3px"></i>${n}</div>`).join('')}</div>`; };
+const phoneL = body => phone(body, 'Panchang');
+const lg = (cls,t,time,note) => `<div class="row sp"><span class="row" style="gap:6px"><span style="display:inline-block;width:14px;height:9px;border-radius:3px;${cls}"></span><b>${t}</b></span><span class="h3" style="font-size:.95em">${time}${note?` <span class="sm" style="font-weight:400">${note}</span>`:''}</span></div>`;
+const gS = 'background:#3d3d3d', aS = 'border:1.5px dashed var(--ink)';
+const chipL = (t,d) => `<span class="chip${d?'':' on'}" style="font-size:.82em;padding:5px 12px;${d?'border:1.2px dashed var(--ink)':''}">${t}</span>`;
+const minL = phoneL(`
+  ${dnav}
+  <div class="pcard" style="flex:1;background:#fafafa"><div class="img art" style="border-bottom:0;background:#fafafa">Illustration of the day</div>
+    <div class="cap" style="padding:0 14px 14px;gap:6px">
+      <div class="no">Sunday 4 October</div>
+      <div style="font-size:1.4em;line-height:1.2;font-weight:500;letter-spacing:-.01em">Today is <span style="white-space:nowrap"><span style="border-bottom:1.5px solid var(--ink)">Shukla Ashtami</span><span style="display:inline-flex;align-items:center;justify-content:center;width:1.3em;height:1.3em;margin-left:.3em;border:1.3px solid var(--ink);border-radius:50%;font-size:.5em;font-weight:700;vertical-align:.7em;line-height:1">i</span></span></div>
+      <div style="font-size:.95em;line-height:1.4;color:#555;margin-top:-2px">A steady day, good for finishing what is started and for calm conversations.</div>
+      <div class="row" style="gap:6px;flex-wrap:wrap">${chipL('Good 10:30 – 12:00')}${chipL('Good 14:10 – 15:40')}</div>
+    </div></div>
+
+`);
+
+/* L (back) · Turn over: the five limbs */
+const limbB = (n,t,v,line,body,you) => `<div style="padding:12px 0;border-top:1px solid #e4e4e4"><div class="row sp" style="align-items:baseline"><div style="font-size:1.25em;font-weight:700">${n}</div><span class="sm" style="font-size:.78em">${t}</span></div><div style="margin-top:2px;font-size:1em;font-weight:700;line-height:1.3"><span class="term">${v}</span> <span style="font-weight:400;font-size:.9em;color:#666">· ${line}</span></div><div style="font-size:.88em;line-height:1.45;color:#444;margin-top:5px">${body}</div>${you?`<div style="font-size:.86em;line-height:1.4;margin-top:7px;padding:7px 9px;border-left:2px solid var(--ink);background:#f6f6f6"><b>For you.</b> ${you}</div>`:''}</div>`;
+const minLb = phoneL(`
+  ${dnav}
+  <div class="pcard" style="flex:1;padding:10px 14px 10px;background:#fff">
+    <div class="row sp"><span class="lbl">The sun</span><span class="sm" style="font-size:.78em">Sunday 4 October</span></div>
+    <svg viewBox="0 0 300 104" style="width:100%;display:block;margin-top:4px"><line x1="10" y1="90" x2="290" y2="90" stroke="#9a9a9a" stroke-width="1.2"/><path d="M30 90 A120 80 0 0 1 98.9 17.6" fill="none" stroke="#1f1f1f" stroke-width="1.6"/><path d="M98.9 17.6 A120 80 0 0 1 270 90" fill="none" stroke="#9a9a9a" stroke-width="1.4" stroke-dasharray="3 4"/><circle cx="98.9" cy="17.6" r="8" fill="#fff" stroke="#1f1f1f" stroke-width="1.8"/><circle cx="98.9" cy="17.6" r="3" fill="#1f1f1f"/><circle cx="30" cy="90" r="3" fill="#1f1f1f"/><circle cx="270" cy="90" r="3" fill="#fff" stroke="#1f1f1f" stroke-width="1.4"/></svg>
+    <div class="row sp" style="margin-top:2px;white-space:nowrap"><span><b>Sunrise</b> <span class="sm">06:12</span></span><span class="sm" style="font-size:.74em">11h 50m daylight</span><span><b>Sunset</b> <span class="sm">18:02</span></span></div>
+    <div class="lbl" style="margin-top:16px;margin-bottom:-2px">The five limbs</div>
+    ${limbB('Tithi','till 17:48','Shukla Ashtami','Eighth day of the moon','The moon is half full and growing. Eighth days feel steady and practical, good for finishing what is already started.')}
+    ${limbB('Vara','all day','Ravivara','Sunday, day of the Sun','Sunday belongs to the Sun, which stands for energy and clarity. A good day to rest and to do one thing that matters.')}
+    ${limbB('Nakshatra','till 21:05','Punarvasu','The return of light','The moon is in this star for most of the day. Punarvasu is about starting again and finding your footing after a hard patch. Around 15:30 the moon moves from Gemini into Cancer, and the mood turns from talkative to gentle.','The moon is in your own sign, Gemini, until 15:30, so feelings sit close to the surface. Expect to talk things through in the morning and want quiet after.')}
+    ${limbB('Yoga','till 14:20','Siddhi','Things come together','Siddhi is an accomplishing time. Plans made before 14:20 tend to hold.')}
+    ${limbB('Karana','till 17:48','Kaulava','Half a tithi','Each tithi has two halves. Kaulava is the friendly half, good for work with other people.')}
+  </div>
+`);
+
+$('#homeGrid').innerHTML = fig(homeD,'Today','Greeting and date, then the horoscope headline and text, a Listen bar (1:20), and the affirmation. A hint at the foot points to the life-area sections below.');
+$('#panGrid').innerHTML =
+  fig(minL,'Panchang · Front','Illustration of the day, then "Today is Shukla Ashtami" with a one-line summary and the Good-time chips.') +
+  fig(minLb.replace('class="ph"','class="ph" style="min-height:0"'),'Panchang · Back','Sun arc with sunrise and sunset, then Tithi, Vara, Nakshatra, Yoga and Karana. Each has its value, when it ends and a short paragraph. This page scrolls in the app.');
+</script>
+</body>
+</html>
